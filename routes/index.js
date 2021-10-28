@@ -1,11 +1,12 @@
 var express = require('express');
 var router = express.Router();
-const db = require('../models/db');
-const UserModel = require('../models/user');
+const User = require('../models/user');
+const checkAuthenticated = require('../middlewares/authmiddleware');
+
 /* GET home page. */
-router.get('/', async function(req, res, next) {
-  const user = await UserModel.findOne();
-  res.render('index', { title: 'Express' , user: user});
+router.get('/', async (req, res) =>{
+  console.log(req.user)
+  res.render('index', { title: 'Express'});
 });
 
 module.exports = router;
