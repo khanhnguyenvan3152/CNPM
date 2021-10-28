@@ -24,6 +24,7 @@
         <main>
             <div class="grid wide row">
                 <div class="col-xs-12 form-box">
+                    <i class=""></i>
                     <div id="register" class="auth-box">
                         <h1 class="auth-box__heading">ĐĂNG KÝ</h1>
                         <form action="/auth/register" method="post" id="user-register">
@@ -37,31 +38,32 @@
                                 <label class="input-group__label">
                                     <i class="input-group__icon ti-user"></i>
                                 </label>
-                                <input type="text" name="lastname" placeholder="Tên" class="form-control">
+                                <input type="text" name="lastname" required placeholder="Tên" class="form-control">
                             </div>
                             <div class="input-group input-account">
                                 <label class="input-group__label">
                                     <i class="input-group__icon ti-email"></i>
                                 </label>
-                                <input type="email" name="email" placeholder="Email" class="form-control">
+                                <input type="email" name="email" required placeholder="Email" pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}" class="form-control">
                             </div>
                             <div class="input-group input-account">
                                 <label class="input-group__label">
                                     <i class="input-group__icon ti-lock"></i>
                                 </label>
-                                <input type="password" name="password" placeholder="Mật khẩu" class="form-control">
+                                <input type="password" name="password" required placeholder="Mật khẩu" class="form-control">
                             </div>
                             <div class="auth-control">
-                                <button class="btn" type="submit">
+                                <button onclick="validation()" class="btn" type="submit">
                                     ĐĂNG KÝ
                                 </button>
                             </div>
-                            <% if(messages.error){%>
-                                <h3 class="danger"><%=messages.error%></h3>
-                            <%}%>
+                            <% if(typeof message !== "undefined") {%>
+                             <% if(message !== ""){%>
+                                <p class="text-danger"><%=message%></p>
+                            <%}}%>
                             <div class="login-control">
                                 Có tài khoản? 
-                                <a href="" class="login__link">
+                                <a href="/auth/login" class="login__link">
                                     Đăng nhập
                                 </a>
                             </div>
@@ -75,4 +77,12 @@
    
     </div>
 </body>
+<script>
+    validation()
+    {
+        $('input').val(function(_, value) {
+        return $.trim(value);
+        });     
+    }   
+</script>
 </html>

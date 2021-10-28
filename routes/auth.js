@@ -4,6 +4,7 @@ const router = express.Router();
 const User = require('../models/user');
 const passport = require('passport');
 const initializePassport = require('../passport-config');
+const {enforceAuthentication,forwardAuthentication} = require('../middlewares/auth');
 const checkAuthentication = require('../middlewares/authmiddleware');
 initializePassport(
     passport, 
@@ -14,7 +15,7 @@ initializePassport(
         return user;
     }
 )
-router.get('/login',function(req,res,next){
+router.get('/login',forwardAuthentication,function(req,res,next){
     res.render('authentication/login',{layout: false});
 })
 
@@ -43,8 +44,9 @@ router.post('/register',async function(req,res,next){
             res.redirect('/');
         })
         .catch(err=>{
-            console.log(err);
-            res.redirect('/auth/register');
+            console.log(err.code);
+            if(err.code === 79) req.flash('message',"Email đã được sử dụng");
+            res.redirect('auth/register',{layout:false});
         })
     }
     catch(err){
