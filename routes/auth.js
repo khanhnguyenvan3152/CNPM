@@ -26,7 +26,8 @@ router.post('/login',passport.authenticate('local',{
 }))
 
 router.get('/register',function(req,res,next){
-    res.render('authentication/register',{layout:false});
+    let message = req.flash('message');
+    res.render('authentication/register',{layout:false,message:message});
 })
 
 router.post('/register',async function(req,res,next){
@@ -41,12 +42,11 @@ router.post('/register',async function(req,res,next){
         user.save()
         .then(result=>{
             console.log(result);
-            res.redirect('/');
+            res.redirect('/auth/login');
         })
         .catch(err=>{
-            console.log(err.code);
-            if(err.code === 79) req.flash('message',"Email đã được sử dụng");
-            res.redirect('auth/register',{layout:false});
+            req.flash('message',err.errors);
+            console.log(err);
         })
     }
     catch(err){

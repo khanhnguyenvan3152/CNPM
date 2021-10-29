@@ -58,9 +58,10 @@
                                 </button>
                             </div>
                             <% if(typeof message !== "undefined") {%>
-                             <% if(message !== ""){%>
+                             <% if(message){%>
                                 <p class="text-danger"><%=message%></p>
                             <%}}%>
+                           
                             <div class="login-control">
                                 Có tài khoản? 
                                 <a href="/auth/login" class="login__link">
