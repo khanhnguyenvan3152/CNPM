@@ -124,15 +124,16 @@
                                 </div>
                                 
                             </div>
+                            <!-- <div class="slide-product__controls">
+                                <div class="slide-product__prev">
+                                    <i class="ti-angle-left slide-product__controls-icon"></i>
+                                </div>
+                                <div class="slide-product__next">
+                                    <i class="ti-angle-right slide-product__controls-icon"></i>
+                                </div>
+                            </div> -->
                       </div>
-                      <div class="slide-product__controls">
-                          <div class="slide-product__prev">
-                              <i class="ti-angle-left slide-product__controls-icon"></i>
-                          </div>
-                          <div class="slide-product__next">
-                              <i class="ti-angle-right slide-product__controls-icon"></i>
-                          </div>
-                      </div>
+                      
                   </div>
               </div>
           </div>
@@ -221,14 +222,14 @@
                               </div>   
                           </div>
                       </div>
-                      <div class="slide-product__controls">
+                      <!-- <div class="slide-product__controls">
                           <div class="slide-product__prev">
                               <i class="ti-angle-left slide-product__controls-icon"></i>
                           </div>
                           <div class="slide-product__next">
                               <i class="ti-angle-right slide-product__controls-icon"></i>
                           </div>
-                      </div>
+                      </div> -->
                   </div>
               </div>
           </div>
@@ -331,14 +332,14 @@
                               </div>
                           </div>
                       </div>
-                      <div class="slide-product__controls">
+                      <!-- <div class="slide-product__controls">
                           <div class="slide-product__prev">
                               <i class="ti-angle-left slide-product__controls-icon"></i>
                           </div>
                           <div class="slide-product__next">
                               <i class="ti-angle-right slide-product__controls-icon"></i>
                           </div>
-                      </div>
+                      </div> -->
                   </div>
               </div>
           </div>
@@ -427,14 +428,14 @@
                               </div>
                           </div>
                       </div>
-                      <div class="slide-product__controls">
+                      <!-- <div class="slide-product__controls">
                           <div class="slide-product__prev">
                               <i class="ti-angle-left slide-product__controls-icon"></i>
                           </div>
                           <div class="slide-product__next">
                               <i class="ti-angle-right slide-product__controls-icon"></i>
                           </div>
-                      </div>
+                      </div> -->
                   </div>
               </div>
           </div>
@@ -537,14 +538,14 @@
                               </div>
                           </div>
                       </div>
-                      <div class="slide-product__controls">
+                      <!-- <div class="slide-product__controls">
                           <div class="slide-product__prev">
                               <i class="ti-angle-left slide-product__controls-icon"></i>
                           </div>
                           <div class="slide-product__next">
                               <i class="ti-angle-right slide-product__controls-icon"></i>
                           </div>
-                      </div>
+                      </div> -->
                   </div>
               </div>
           </div>
@@ -633,14 +634,14 @@
                               </div>                            
                           </div>
                       </div>
-                      <div class="slide-product__controls">
+                      <!-- <div class="slide-product__controls">
                           <div class="slide-product__prev">
                               <i class="ti-angle-left slide-product__controls-icon"></i>
                           </div>
                           <div class="slide-product__next">
                               <i class="ti-angle-right slide-product__controls-icon"></i>
                           </div>
-                      </div>
+                      </div> -->
                   </div>
               </div>
           </div>
@@ -736,14 +737,14 @@
                               </div>                            
                           </div>
                       </div>
-                      <div class="slide-product__controls">
+                      <!-- <div class="slide-product__controls">
                           <div class="slide-product__prev">
                               <i class="ti-angle-left slide-product__controls-icon"></i>
                           </div>
                           <div class="slide-product__next">
                               <i class="ti-angle-right slide-product__controls-icon"></i>
                           </div>
-                      </div>
+                      </div> -->
                   </div>
               </div>
           </div>
@@ -853,14 +854,14 @@
                               </li>
                           </ul>
                       </div>
-                      <div class="slide-product__controls">
+                      <!-- <div class="slide-product__controls">
                           <div class="slide-product__prev">
                               <i class="ti-angle-left slide-product__controls-icon"></i>
                           </div>
                           <div class="slide-product__next">
                               <i class="ti-angle-right slide-product__controls-icon"></i>
                           </div>
-                      </div>
+                      </div> -->
                   </div>
               </div>
           </div>
@@ -932,9 +933,11 @@
         margin:0,
         autoplay:true,
         autoplayTimeout:2500,
-        autoplayHoverPause:true
-  
+        autoplayHoverPause:true,
+        navigation:true
     })
+    const prevIcon = "<i class='ti-angle-left slide-product__controls-icon'></i>";
+    const nextIcon = "<i class='ti-angle-right slide-product__controls-icon'></i>";
     $(".product-carousel").owlCarousel({
         loop:true,
         margin:0,
@@ -942,9 +945,15 @@
         autoWidth:true,
         autoplayTimeout:2500,
         autoplayHoverPause:true,
-        dots:false
+        dots:false,
+        nav:true,
+        navText:[prevIcon,nextIcon]
     }
     );
+    
+    $(".owl-prev").addClass("slider-product__prev");
+    $(".owl-next").addClass("slider-product__next");
+
 
   
 });

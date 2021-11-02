@@ -12,6 +12,7 @@ const ProductSchema = new mongoose.Schema({
         weight:Number,
     }),
     colors: Array,
+    options: Array,
     group: String,
     type: String,
     tags: Array,

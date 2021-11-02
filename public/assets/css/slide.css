@@ -4,7 +4,6 @@
 }
 
 .slider-main__wrap{
-    height: 580px;
     position: relative;
     z-index: 1;
 }
@@ -247,4 +246,28 @@
     width: auto;
     padding: 0 15px;
     margin: 0 auto;
+}
+.owl-prev{
+    position: absolute;
+    left: -5px;
+    top: 45%;
+}
+.owl-next{
+    position: absolute;
+    right: -5px;
+    top: 45%;
+}
+.owl-theme .owl-nav [class*=owl-]:hover {
+    background: #fff !important;
+    color: #f89d4c !important;
+    text-decoration: none;
+    border:0px !important;
+    border:none !important;
+}
+.owl-theme .owl-nav [class*=owl-]:focus {
+    outline: none !important;
+}
+
+.slider-main__stage ul{
+    margin:0;
 }

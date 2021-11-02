@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 if(process.env.NODE_ENV!=='production'){
     require('dotenv').config();
 }
-const server = `mongodb+srv://${process.env.DATABASE_USERNAME}:${process.env.DATABASE_PASSWORD}@cluster0.q2isi.mongodb.net/ArtStoreDb?retryWrites=true&w=majority;`
+const server = `mongodb+srv://${process.env.DATABASE_USERNAME}:${process.env.DATABASE_PASSWORD}@cluster0.q2isi.mongodb.net/ArtStoreDb?retryWrites=true`
 
 class Database{
     constructor()

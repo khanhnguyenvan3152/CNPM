@@ -13,6 +13,8 @@ var passport = require('passport');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var authRouter = require('./routes/auth');
+var cartRouter = require('./routes/cart')
+var collectionsRouter = require('./routes/collections')
 var app = express();
 var db = require('./models/db');
 // view engine setup
@@ -45,9 +47,17 @@ app.use(function(req,res,next){
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/auth',authRouter)
+app.use('/auth',authRouter);
+app.use('/cart',cartRouter);
+app.use('/collections',collectionsRouter);
 
+app.get('/huong-dan-mua-hang',(req,res)=>{
+  res.render('shoppingguide')
+})
 
+app.get('/lien-he',(req,res)=>{
+  res.render('publisher');
+})
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

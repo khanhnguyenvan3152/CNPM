@@ -20,39 +20,49 @@ router.get('/login',forwardAuthentication,function(req,res,next){
 })
 
 router.post('/login',passport.authenticate('local',{
-    successRedirect:'/',
     failureRedirect:'/auth/login',
     failureFlash:true
-}))
+}),function(req,res){
+    if(req.body.remember)
+    {
+        req.session.cookie.maxAge = 30*24*60*60*1000;
+    }
+    else{
+        req.session.cookie.expires = false;
+    }
+    res.redirect('/');
+})
 
 router.get('/register',function(req,res,next){
-    let message = req.flash('message');
-    res.render('authentication/register',{layout:false,message:message});
+    res.render('authentication/register',{layout:false,message:req.flash('message'),success:req.flash('success')});
 })
 
 router.post('/register',async function(req,res,next){
-    try{
-        const hashedPassword = await bcrypt.hash(req.body.password,10);
-        const user = new User({
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
-            email: req.body.email,
-            password: hashedPassword
-        });
-        user.save()
-        .then(result=>{
-            console.log(result);
-            res.redirect('/auth/login');
-        })
-        .catch(err=>{
-            req.flash('message',err.errors);
-            console.log(err);
-        })
+        let checkExisted = await User.count({email:req.body.email}).exec();
+        console.log(checkExisted)
+        if(checkExisted >0)
+        {
+            res.status(400).send('Email đã được đăng ký');
+        }
+        else{
+            const hashedPassword = await bcrypt.hash(req.body.password,10);
+            const user = new User({
+                firstname: req.body.firstname,
+                lastname: req.body.lastname,
+                email: req.body.email,
+                password: hashedPassword
+            });
+            try {
+                await user.save();
+                res.send('Đăng ký thành công');
+            }
+            catch(error){
+                console.log(error);
+                res.status(400).send('Đã có lỗi xảy ra');
+            }
+        }
     }
-    catch(err){
-        console.log(err);
-    }
-})
+)
 
 router.get('/logout',function(req,res,next){
     req.logOut();

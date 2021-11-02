@@ -29,7 +29,6 @@ function initialize(passport, getUserByEmail,getUserById){
     )
     passport.deserializeUser(async(id,done)=>{
         let user = await getUserById(id);
-        console.log(user);
         return done(null,user)
     })
 }

@@ -5,7 +5,9 @@ const checkAuthenticated = require('../middlewares/authmiddleware');
 
 /* GET home page. */
 router.get('/', async (req, res) =>{
-  console.log(req.user)
+  console.log(req.session);
+  console.log(req.session.id);
+  console.log(req.user);
   res.render('index', { title: 'Express'});
 });
 
