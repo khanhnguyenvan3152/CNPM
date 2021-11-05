@@ -109,13 +109,11 @@
                 var labelResult = $("#labelResult");
                 labelResult.removeClass();
                 labelResult.addClass('text-success');
-                console.log(data);
                 labelResult.html(data)
             },
             error: function(data){
                 var labelResult = $("#labelResult");
                 labelResult.removeClass();
-                console.log(data.responseText)
                 labelResult.addClass('text-danger');
                 labelResult.html(data.responseText)
             }

@@ -5,7 +5,7 @@
             <div class="col-12">
                 <ul class="bread-crumb">
                     <li class="bread-crumb-item">
-                        <a href="" class="bread-crumb-heading">
+                        <a href="/" class="bread-crumb-heading">
                             Trang Chủ
                         </a>
                     </li>
@@ -13,16 +13,14 @@
                         <i class="ti-angle-right"></i>
                     </li>
                     <li class="bread-crumb-item">
-                        <a href="" class="bread-crumb-heading">
+                        <a href="/collections" class="bread-crumb-heading">
                             Danh Mục
                         </a>
                     </li>
                     <li class="bread-crumb-item">
                         <i class="ti-angle-right"></i>
                     </li>
-                    <li class="bread-crumb-item">
-                        BÚT LINE
-                    </li>
+                  
                 </ul>
             </div>
         </div>
@@ -695,33 +693,58 @@
                         <!--PAGINATION-->
                         <div class="col-12">
                             <nav> 
-                                <ul class="pagination home-product__pagination flex-wrap justify-content-center">
-                                    <li class="pagination-item">
-                                        <a href="" class="pagination-item__link">
-                                            <i class="pagination-item__icon ti-angle-left"></i>
-                                        </a>
-                                    </li>
-                                    <li class="pagination-item pagination-item--active">
-                                        <a href="" class="pagination-item__link">1</a>
-                                    </li>
-                                    <li class="pagination-item">
-                                        <a href="" class="pagination-item__link">2</a>
-                                    </li>
-                                    <li class="pagination-item">
-                                        <a href="" class="pagination-item__link">3</a>
-                                    </li>
-                                    <li class="pagination-item">
-                                        <a href="" class="pagination-item__link">...</a>
-                                    </li>
-                                    <li class="pagination-item">
-                                        <a href="" class="pagination-item__link">14</a>
-                                    </li>
-                                    <li class="pagination-item">
-                                        <a href="" class="pagination-item__link">
-                                            <i class="pagination-item__icon ti-angle-right"></i>
-                                        </a>
-                                    </li>
-                                </ul>
+                                <% if(pages>0) {%>
+                                    <ul class="pagination home-product__pagination flex-wrap justify-content-center">
+                                        <% if (current === 1){ %>
+                                            <li class="pagination-item">
+                                                <a href="/collections/all?page=1" class="pagination-item__link">
+                                                    <i class="pagination-item__icon ti-angle-left"></i>
+                                                </a>
+                                            </li>
+                                        <% } else { %>
+                                            <li class="pagnation-item disabled">
+                                                <a class="pagination-item__link" href="#">First</a>
+                                            </li>
+                                        <% } %>
+                                        <!--ITEM-->
+                                        <% var i = (Number(current)>3)?(Number(current)-2):1; %>
+                                        <% if(i!==1) { %>
+                                            <li class="pagination-item disabled">
+                                                <a class="pagination-item__link" href="#">...</a>
+                                            </li>
+                                        <% } %>
+                                        <% for(;i<=(Number(current)+2)&& i<=pages;i++) { %>
+                                            <% if(i==current) {%>
+                                                <li class="pagination-item active">
+                                                    <a class="pagination-item__link" href="/collections/all?page=<%= i %>"><%=i%></a>
+                                                </li>
+                                            <% }  else { %>   
+                                                <li class="pagination-item">
+                                                    <a class="pagination-item__link" href="/collections/all?page=<%= i %>"><%=i%></a>
+                                                </li>
+                                            <% } %>
+                                            <% if (i == Number(current) + 2 && i < pages) { %>
+                                                <li class="pagination-item disabled">
+                                                  <a class="pagination-item__link" href="#">...</a>
+                                                </li>
+                                            <% } %>
+                                        <% } %>
+                                        <!--LAST ITEM-->
+                                        <% if(current == pages) {%>
+                                            <li class="pagination-item disabled">
+                                                <a class="pagination-item__link" href="#">
+                                                  Last
+                                                </a>
+                                              </li>
+                                          <% } else { %>
+                                              <li class="pagination-item">
+                                                <a class="pagination-item__link" href="/collections/all?page=<%= pages %>/">
+                                                  Last
+                                                </a>
+                                              </li>
+                                            </ul>
+                                        <% } %>    
+                                        <% } %>                           
                             </nav>    
                         </div>
                       </div>

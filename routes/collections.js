@@ -34,7 +34,9 @@ router.get('/:producttype',(req,res,next)=>{
                 res.send('Error');
             }
             else{
+                let breadcrumbType = producttype;
                 res.render('collections',{
+                    type:breadcrumbType,
                     productList:products,
                     current:page,
                     pages:Math.ceil(count/page)
