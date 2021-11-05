@@ -57,8 +57,8 @@
               <div class="slide-product__wrap">
                   <div class="slide-product__information">
                       <div class="slide-product__stage">
-                          <div class="slide-product__list owl-carousel owl-theme product-carousel">
-                              <div class="slide-product__item">
+                          <div class="slide-product__list slideMauNuoc owl-carousel owl-theme product-carousel">
+                              <!-- <div class="slide-product__item">
                                   <a href="" class="slide-product__link">
                                       <img src="/assets/image/wb5049_isoindolinone_yellow_deep_e03b2f101f3e4da7a66bf441ffd93227_medium.webp" alt="" class="slide-product__img">
                                   </a>
@@ -121,7 +121,7 @@
                                           <span class="slide-product__price--old">89,000₫</span>
                                       </p>
                                   </div>
-                                </div>
+                                </div> -->
                                 
                             </div>
                             <!-- <div class="slide-product__controls">
@@ -925,37 +925,67 @@
   </div>
 </div>
 </div>
-<script>
+<script>  
+ 
   $(document).ready(function(){
-    $(".main-carousel").owlCarousel({
-        items:1,
-        loop:true,
-        margin:0,
-        autoplay:true,
-        autoplayTimeout:2500,
-        autoplayHoverPause:true,
-        navigation:true
-    })
-    const prevIcon = "<i class='ti-angle-left slide-product__controls-icon'></i>";
-    const nextIcon = "<i class='ti-angle-right slide-product__controls-icon'></i>";
-    $(".product-carousel").owlCarousel({
-        loop:true,
-        margin:0,
-        autoplay:true,
-        autoWidth:true,
-        autoplayTimeout:2500,
-        autoplayHoverPause:true,
-        dots:false,
-        nav:true,
-        navText:[prevIcon,nextIcon]
-    }
-    );
-    
-    $(".owl-prev").addClass("slider-product__prev");
-    $(".owl-next").addClass("slider-product__next");
+    $.ajax({
+        url: '/products/getAllProductByType/mau-nuoc',
+        method: 'GET',
+        contentType: 'application-json',
+        success: function(response)
+        {
+            let products = JSON.parse(JSON.stringify(response));
+            console.log(products);
+            products.product.forEach((item)=>{
+                console.log(item);
+                $(".slideMauNuoc").append(`
+                                <div class="slide-product__item">
+                                  <a href="/products/${item.productCode}" class="slide-product__link">
+                                      <img src="${item.images[0]}" alt="" class="slide-product__img">
+                                  </a>
+                                  <div class="slide-product__detail">
+                                      <a href="/products/${item.productCode}" class="slide-product__heading-link">
+                                          <h2 class="slide-product__heading" title="Màu Nước Holbein Artist 5ml : ISOINDOLINONE YELLOW DEEP W049 - C">
+                                              ${item.name}
+                                          </h2>
+                                      </a>
+                                      <p class="slide-product__price">
+                                          <span class="slide-product__price--new">${item.price}₫</span>
+                                      </p>
+                                  </div>
+                                </div>`)
+            })
+            const prevIcon = "<i class='ti-angle-left slide-product__controls-icon'></i>";
+            const nextIcon = "<i class='ti-angle-right slide-product__controls-icon'></i>";
+            $(".product-carousel").owlCarousel({
+                loop:true,
+                margin:0,
+                autoplay:true,
+                autoWidth:true,
+                autoplayTimeout:2500,
+                autoplayHoverPause:true,
+                dots:false,
+                nav:true,
+                navText:[prevIcon,nextIcon]
+            }
+            );
+            
+            $(".owl-prev").addClass("slider-product__prev");
+            $(".owl-next").addClass("slider-product__next");
+                }
+            })
+        
+            $(".main-carousel").owlCarousel({
+                items:1,
+                loop:true,
+                margin:0,
+                autoplay:true,
+                autoplayTimeout:2500,
+                autoplayHoverPause:true,
+                navigation:true
+            })
+   
 
-
-  
 });
 
 

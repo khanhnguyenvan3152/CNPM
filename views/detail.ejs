@@ -219,15 +219,11 @@
         <div class="product-comment">
             <div class="product-comment__wrapper">
                 <div class="product-comment__title">
-                    <h3>Giới thiệu về sản phẩm Bộ 6 bút Brush Marvy tone xám/ tone nâu</h3>
+                    <h3>Giới thiệu về sản phẩm <%= product.name%></h3>
                 </div>
                 <div class="product-comment__description">
                     <div class="product-comment__description-wrapper">
-                        <p>
-                            <span>- Sử dụng trực tiếp, có sẵn mực</span>
-                            <br>
-                            <span>- Thể hiện bản vẽ kiến trúc - kỹ thuật, vẽ manga, chibi, minh họa,...</span>
-                        </p>
+                      <%- product.description%>
                     </div>
                 </div>
             </div>
@@ -322,4 +318,5 @@
     $(".plus").click(function(){
 
     })
+    
 </script>
