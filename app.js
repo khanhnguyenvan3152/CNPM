@@ -16,6 +16,7 @@ var authRouter = require('./routes/auth');
 var cartRouter = require('./routes/cart')
 var collectionsRouter = require('./routes/collections');
 var productRouter = require('./routes/products');
+var checkoutRouter = require('./routes/checkout');
 var app = express();
 var db = require('./models/db');
 // view engine setup
@@ -52,6 +53,7 @@ app.use('/auth',authRouter);
 app.use('/cart',cartRouter);
 app.use('/collections',collectionsRouter);
 app.use('/products',productRouter);
+app.use('/checkout',checkoutRouter);
 
 app.get('/huong-dan-mua-hang',(req,res)=>{
   res.render('shoppingguide')
