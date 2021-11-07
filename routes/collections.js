@@ -15,6 +15,7 @@ router.get('/all',(req,res)=>{
             }
             else{
                 res.render('collections',{
+                    type: "all",
                     productList:products,
                     current:page,
                     pages:Math.ceil(count/page)
@@ -26,9 +27,33 @@ router.get('/all',(req,res)=>{
 
 router.get('/:producttype',(req,res,next)=>{
     let producttype = req.params.producttype;
+    console.log(producttype);
     let page = (typeof req.params.page !== "undefined")?req.params.page:1;
     let pageSize = 20;
     Product.find({type:producttype}).skip((page-1)*pageSize).limit(pageSize).exec((err,products)=>{
+        Product.countDocuments({type:producttype},(err,count)=>{
+            if(err){
+                res.send('Error');
+            }
+            else{
+                let breadcrumbType = producttype;
+                res.render('collections',{
+                    type:breadcrumbType,
+                    productList:products,
+                    current:page,
+                    pages:Math.ceil(count/page)
+                });
+            }
+        })
+    })
+})
+
+router.get('/vendors',(req,res,next)=>{
+    let brand = req.query.q;
+    console.log(q);
+    let page = (typeof req.params.page !== "undefined")?req.params.page:1;
+    let pageSize = 20;
+    Product.find({brand:brand}).skip((page-1)*pageSize).limit(pageSize).exec((err,products)=>{
         Product.countDocuments({type:producttype},(err,count)=>{
             if(err){
                 res.send('Error');

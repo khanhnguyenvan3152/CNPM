@@ -17,6 +17,8 @@ var cartRouter = require('./routes/cart')
 var collectionsRouter = require('./routes/collections');
 var productRouter = require('./routes/products');
 var checkoutRouter = require('./routes/checkout');
+var getHeaderData = require('./middlewares/utility').getHeaderData;
+var getCategories = require('./middlewares/utility').getCategories;
 var app = express();
 var db = require('./models/db');
 // view engine setup
@@ -28,7 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.disable('view cache')
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(expressLayouts);
 
@@ -46,12 +48,14 @@ app.use(function(req,res,next){
   res.locals.login = req.isAuthenticated();
   next();
 })
+//Get header data for each view
+app.use(getHeaderData);
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth',authRouter);
 app.use('/cart',cartRouter);
-app.use('/collections',collectionsRouter);
+app.use('/collections',getCategories,collectionsRouter);
 app.use('/products',productRouter);
 app.use('/checkout',checkoutRouter);
 
@@ -72,7 +76,6 @@ app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
   // render the error page
   res.status(err.status || 500);
   res.render('error',{layout:false});

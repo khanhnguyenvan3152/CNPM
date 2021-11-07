@@ -28,7 +28,7 @@
             </div>
             <div class="product-detail__brand">
                 <span>Thương hiệu:</span>
-                <a href="" class="product-detail__brand-link"><%=product.brand%></a>
+                <a href="/collections/vendors?q=<%=product.brand%>" class="product-detail__brand-link"><%=product.brand%></a>
             </div>
         </div>
     </div>
@@ -63,9 +63,9 @@
                     <div class="short_descrition_tab"></div>
                     <div class="product-type">
                         <div class="product-type__wrapper">
-                            <span class="product-type__title">Tiêu đề</span>
+                            <span class="product-type__title">Loại</span>
                             <ul class="product-type__list">
-                                <li class="product-type__item">
+                                <!-- <li class="product-type__item">
                                     <label for="selectType">
                                         <input id="selectType" type="radio" checked="checked" value="ToneGray" name="OptionType" class="selectActive">
                                         <span>Tone Gray</span>
@@ -76,22 +76,22 @@
                                         <input id="selectType1" type="radio" value="ToneBrown" name="OptionType">
                                         <span>Tone Brown</span>
                                     </label>
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
                     </div>
                     <div class="product-price">
                         <div class="product-price__current">
-                            110,000₫
+                            <%= product.price%>đ
                         </div>
-                        <div class="product-price__past">
+                        <!-- <div class="product-price__past">
                             <span>Giá trước đây:</span>
                             <del>120,000₫</del>
                         </div>
                         <div class="product-price__percent">
                             <span>Tiết kiệm:</span>
                             <b>8%</b>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="product-quantity">
                         <span>Số Lượng:</span>
@@ -316,7 +316,15 @@
 </div>
 <script>
     $(".plus").click(function(){
-
+        let value = Number($(".input-qty").val())
+        value = value + 1;
+        $(".input-qty").prop("value",value); 
     })
-    
+    $(".minus").click(function(){
+        let value = Number($(".input-qty").val());
+        if(value>1){
+            value = value - 1;
+            $(".input-qty").prop("value",value); 
+        }
+    })
 </script>
