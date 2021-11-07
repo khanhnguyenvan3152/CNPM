@@ -510,32 +510,53 @@
                         </div>
                     
                         <div class="product">
-                          
                             <% productList.forEach(product =>{%>
-                                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 product-card">
-                                    <a href="/products/<%=product.productCode%>" class="product-item">
-                                        <div class="product-item__img" style="background-image: url(<%=product.images[0]%>);">
-                                        </div>
-                                        <h2 class="product-item__name">
-                                            <%= product.name%>
-                                        </h2>
-                                        <div class="product-item__price">
-                                            <span class="product-item__price-new">
-                                                <%=product.price%>đ
-                                            </span>
-                                            <!-- <span class="product-item__price-old">
-                                                120,000₫
-                                            </span> -->
-                                        </div>
-                                        <!-- <div class="product-item__sale-off">
-                                            <span class="product-item__sale-off-percent">
-                                                -9%
-                                            </span>
-                                        </div> -->
-                                    </a>
-                                </div>
-                                <%})%>
-                            <!--<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 product-card">
+                                <a href="/products/<%=product.productCode%>" class="product-item">
+                                    <div class="product-item__img" style="background-image: url(<%=product.images[0]%>);">
+                                    </div>
+                                    <h2 class="product-item__name">
+                                        <%= product.name%>
+                                    </h2>
+                                    <div class="product-item__price">
+                                        <span class="product-item__price-new">
+                                            <%=product.price%>đ
+                                        </span>
+                                        <!-- <span class="product-item__price-old">
+                                            120,000₫
+                                        </span> -->
+                                    </div>
+                                    <!-- <div class="product-item__sale-off">
+                                        <span class="product-item__sale-off-percent">
+                                            -9%
+                                        </span>
+                                    </div> -->
+                                </a>
+                            </div>
+                            <%})%>
+                            <!-- <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                                <a href="" class="product-item">
+                                    <div class="product-item__img" style="background-image: url(/assets/image/KuretakeZigKhangNuoc.jpg)">
+                                    </div>
+                                    <h4 class="product-item__name">
+                                        Bút Line Kuretake Zig Kháng Nước
+                                    </h4>
+                                    <div class="product-item__price">
+                                        <span class="product-item__price-new">
+                                            110,000₫
+                                        </span>
+                                        <span class="product-item__price-old">
+                                            120,000₫
+                                        </span>
+                                    </div>
+                                    <div class="product-item__sale-off">
+                                        <span class="product-item__sale-off-percent">
+                                            -9%
+                                        </span>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
                                 <a href="" class="product-item">
                                     <div class="product-item__img" style="background-image: url(/assets/image/KuretakeZigKhangNuoc.jpg)">
                                     </div>
@@ -676,7 +697,7 @@
                                     <ul class="pagination home-product__pagination flex-wrap justify-content-center">
                                         <% if (current === 1){ %>
                                             <li class="pagination-item">
-                                                <a href="/collections/<%=type%>?page=1" class="pagination-item__link">
+                                                <a href="/collections/all?page=1" class="pagination-item__link">
                                                     <i class="pagination-item__icon ti-angle-left"></i>
                                                 </a>
                                             </li>
@@ -695,11 +716,11 @@
                                         <% for(;i<=(Number(current)+2)&& i<=pages;i++) { %>
                                             <% if(i==current) {%>
                                                 <li class="pagination-item active">
-                                                    <a class="pagination-item__link" href="/collections/<%=type%>?page=<%= i %>"><%=i%></a>
+                                                    <a class="pagination-item__link" href="/collections/all?page=<%= i %>"><%=i%></a>
                                                 </li>
                                             <% }  else { %>   
                                                 <li class="pagination-item">
-                                                    <a class="pagination-item__link" href="/collections/<%=type%>?page=<%= i %>"><%=i%></a>
+                                                    <a class="pagination-item__link" href="/collections/all?page=<%= i %>"><%=i%></a>
                                                 </li>
                                             <% } %>
                                             <% if (i == Number(current) + 2 && i < pages) { %>
@@ -717,7 +738,7 @@
                                               </li>
                                           <% } else { %>
                                               <li class="pagination-item">
-                                                <a class="pagination-item__link" href="/collections/<%=type%>?page=<%= pages %>/">
+                                                <a class="pagination-item__link" href="/collections/all?page=<%= pages %>/">
                                                   Last
                                                 </a>
                                               </li>

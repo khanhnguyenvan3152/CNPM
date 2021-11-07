@@ -25,18 +25,40 @@ router.get('/all',(req,res)=>{
     })
 })
 
-router.get('/:producttype',(req,res,next)=>{
-    let producttype = req.params.producttype;
-    console.log(producttype);
-    let page = (typeof req.params.page !== "undefined")?req.params.page:1;
+// router.get('/:productGroup',(req,res,next)=>{
+//     let productGroup = req.params.productGroup;
+//     console.log
+//     let page = (typeof req.params.page !== "undefined")?req.params.page:1;
+//     let pageSize = 20;
+//     Product.find({group:productGroup}).skip((page-1)*pageSize).limit(pageSize).exec((err,products)=>{
+//         Product.countDocuments({group:productGroup},(err,count)=>{
+//             if(err){
+//                 res.send('Error');
+//             }
+//             else{
+//                 let breadcrumbType = productGroup;
+//                 res.render('collections',{
+//                     type:breadcrumbType,
+//                     productList:products,
+//                     current:page,
+//                     pages:Math.ceil(count/page)
+//                 });
+//             }
+//         })
+//     })
+// })
+
+router.get('/:productType',(req,res,next)=>{
+    let productType = req.params.productType;
+    let page = (typeof req.query.page !== "undefined")?req.query.page:1;
     let pageSize = 20;
-    Product.find({type:producttype}).skip((page-1)*pageSize).limit(pageSize).exec((err,products)=>{
-        Product.countDocuments({type:producttype},(err,count)=>{
+    Product.find({type:productType}).skip((page-1)*pageSize).limit(pageSize).exec((err,products)=>{
+        Product.countDocuments({type:productType},(err,count)=>{
             if(err){
                 res.send('Error');
             }
             else{
-                let breadcrumbType = producttype;
+                let breadcrumbType = productType;
                 res.render('collections',{
                     type:breadcrumbType,
                     productList:products,
@@ -48,18 +70,20 @@ router.get('/:producttype',(req,res,next)=>{
     })
 })
 
+
 router.get('/vendors',(req,res,next)=>{
     let brand = req.query.q;
     console.log(q);
-    let page = (typeof req.params.page !== "undefined")?req.params.page:1;
+    let page = (typeof req.query.page !== "undefined")?req.query.page:1;
     let pageSize = 20;
     Product.find({brand:brand}).skip((page-1)*pageSize).limit(pageSize).exec((err,products)=>{
-        Product.countDocuments({type:producttype},(err,count)=>{
+        Product.countDocuments({brand:brand},(err,count)=>{
             if(err){
                 res.send('Error');
             }
             else{
-                let breadcrumbType = producttype;
+                console.log(products.length)
+                let breadcrumbType = brand;
                 res.render('collections',{
                     type:breadcrumbType,
                     productList:products,
