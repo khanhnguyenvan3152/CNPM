@@ -20,7 +20,7 @@
                     <li class="bread-crumb-item">
                         <i class="ti-angle-right"></i>
                     </li>
-                  
+                    <li class="bread-crumb-item" style="text-transform: uppercase;"><%=type%></li>
                 </ul>
             </div>
         </div>
@@ -36,15 +36,29 @@
                                 Danh mục nhóm
                             </h3>
                             <ul class="category__list">
-                                <li class="category__item">
-                                    <a data-toggle="collapse" class="category__item-link collapsed">
-                                        BÚT
-                                        <i class="ti-angle-right category__icon"></i>
-                                    </a>
-                                    <ul class="category__list-item collapse">
-                                        <li class="category__child-item">
-                                            <a href="" class="category__child-item-link">BÚT LINE</a>
-                                        </li>
+                                <%if(locals.categories){%>
+                                    <% locals.categories.forEach(cat=>{%>
+                                    <li class="category__item">
+                                        <a data-toggle="collapse" class="category__item-link collapsed" style="text-transform: uppercase;">
+                                            <%=cat.group%>
+                                            <i class="ti-angle-right category__icon"></i>
+                                        </a>
+                                    
+                                    <%if(cat.type.length>0){%>                                
+                                        <ul class="category__list-item collapse">
+                                            <% cat.type.forEach(t=>{%>
+                                                <li class="category__child-item">
+                                                    <a href="/collections/<%= t%>" style="text-transform: uppercase;" class="category__child-item-link"><%=t%></a>
+                                                </li>
+                                            <%})%> 
+                                        </ul>
+                                    <%}%>
+                                    </li>
+                                    <%})%>
+                                <%}%>
+                               
+                                   
+<!--                                     
                                         <li class="category__child-item">
                                             <a href="" class="category__child-item-link">BÚT BRUSH CALLIGRAPHY</a>
                                         </li>
@@ -230,7 +244,7 @@
                                         <input type="checkbox" class="category-brand__input" id="khac">
                                         <span>Khác</span>
                                     </label>
-                                </li>
+                                </li> -->
                             </ul>
                         </nav>
                         <nav class="category">
@@ -465,37 +479,37 @@
                                     <i class="ti-angle-down select-input__icon"></i>
                                     <ul class="select-input__list">
                                         <li class="select-input__item">
-                                            <a href="" class="select-input__link">
+                                            <a href="/collections/<%=type%>" class="select-input__link">
                                                 Sản phẩm nổi bật
                                             </a>
                                         </li>
                                         <li class="select-input__item">
-                                            <a href="" class="select-input__link">
+                                            <a href="/collections/<%=type%>?sort_by=price-ascending" class="select-input__link">
                                                 Giá: Tăng dần
                                             </a>
                                         </li>
                                         <li class="select-input__item">
-                                            <a href="" class="select-input__link">
+                                            <a href="/collections/<%=type%>?sort_by=price-descending" class="select-input__link">
                                                 Giá: Giảm dần
                                             </a>
                                         </li>
                                         <li class="select-input__item">
-                                            <a href="" class="select-input__link">
+                                            <a href="/collections/<%=type%>?sort_by=title-ascending" class="select-input__link">
                                                 Tên: A-Z
                                             </a>
                                         </li>
                                         <li class="select-input__item">
-                                            <a href="" class="select-input__link">
+                                            <a href="/collections/<%=type%>?sort_by=title-descending" class="select-input__link">
                                                 Tên: Z-A
                                             </a>
                                         </li>
                                         <li class="select-input__item">
-                                            <a href="" class="select-input__link">
+                                            <a href="/collections/<%=type%>?sort_by=oldest" class="select-input__link">
                                                 Cũ nhất
                                             </a>
                                         </li>
                                         <li class="select-input__item">
-                                            <a href="" class="select-input__link">
+                                            <a href="/collections/<%=type%>?sort_by=lastest" class="select-input__link">
                                                 Mới nhất
                                             </a>
                                         </li>
@@ -534,170 +548,18 @@
                                 </a>
                             </div>
                             <%})%>
-                            <!-- <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-                                <a href="" class="product-item">
-                                    <div class="product-item__img" style="background-image: url(/assets/image/KuretakeZigKhangNuoc.jpg)">
-                                    </div>
-                                    <h4 class="product-item__name">
-                                        Bút Line Kuretake Zig Kháng Nước
-                                    </h4>
-                                    <div class="product-item__price">
-                                        <span class="product-item__price-new">
-                                            110,000₫
-                                        </span>
-                                        <span class="product-item__price-old">
-                                            120,000₫
-                                        </span>
-                                    </div>
-                                    <div class="product-item__sale-off">
-                                        <span class="product-item__sale-off-percent">
-                                            -9%
-                                        </span>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-                                <a href="" class="product-item">
-                                    <div class="product-item__img" style="background-image: url(/assets/image/KuretakeZigKhangNuoc.jpg)">
-                                    </div>
-                                    <h4 class="product-item__name">
-                                        Bút Line Kuretake Zig Kháng Nước
-                                    </h4>
-                                    <div class="product-item__price">
-                                        <span class="product-item__price-new">
-                                            110,000₫
-                                        </span>
-                                        <span class="product-item__price-old">
-                                            120,000₫
-                                        </span>
-                                    </div>
-                                    <div class="product-item__sale-off">
-                                        <span class="product-item__sale-off-percent">
-                                            -9%
-                                        </span>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-                                <a href="" class="product-item">
-                                    <div class="product-item__img" style="background-image: url(/assets/image/KuretakeZigKhangNuoc.jpg)">
-                                    </div>
-                                    <h4 class="product-item__name">
-                                        Bút Line Kuretake Zig Kháng Nước
-                                    </h4>
-                                    <div class="product-item__price">
-                                        <span class="product-item__price-new">
-                                            110,000₫
-                                        </span>
-                                        <span class="product-item__price-old">
-                                            120,000₫
-                                        </span>
-                                    </div>
-                                    <div class="product-item__sale-off">
-                                        <span class="product-item__sale-off-percent">
-                                            -9%
-                                        </span>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-                                <a href="" class="product-item">
-                                    <div class="product-item__img" style="background-image: url(/assets/image/KuretakeZigKhangNuoc.jpg)">
-                                    </div>
-                                    <h4 class="product-item__name">
-                                        Bút Line Kuretake Zig Kháng Nước
-                                    </h4>
-                                    <div class="product-item__price">
-                                        <span class="product-item__price-new">
-                                            110,000₫
-                                        </span>
-                                        <span class="product-item__price-old">
-                                            120,000₫
-                                        </span>
-                                    </div>
-                                    <div class="product-item__sale-off">
-                                        <span class="product-item__sale-off-percent">
-                                            -9%
-                                        </span>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-                                <a href="" class="product-item">
-                                    <div class="product-item__img" style="background-image: url(/assets/image/KuretakeZigKhangNuoc.jpg)">
-                                    </div>
-                                    <h4 class="product-item__name">
-                                        Bút Line Kuretake Zig Kháng Nước
-                                    </h4>
-                                    <div class="product-item__price">
-                                        <span class="product-item__price-new">
-                                            110,000₫
-                                        </span>
-                                        <span class="product-item__price-old">
-                                            120,000₫
-                                        </span>
-                                    </div>
-                                    <div class="product-item__sale-off">
-                                        <span class="product-item__sale-off-percent">
-                                            -9%
-                                        </span>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-                                <a href="" class="product-item">
-                                    <div class="product-item__img" style="background-image: url(/assets/image/KuretakeZigKhangNuoc.jpg)">
-                                    </div>
-                                    <h4 class="product-item__name">
-                                        Bút Line Kuretake Zig Kháng Nước
-                                    </h4>
-                                    <div class="product-item__price">
-                                        <span class="product-item__price-new">
-                                            110,000₫
-                                        </span>
-                                        <span class="product-item__price-old">
-                                            120,000₫
-                                        </span>
-                                    </div>
-                                    <div class="product-item__sale-off">
-                                        <span class="product-item__sale-off-percent">
-                                            -9%
-                                        </span>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-                                <a href="" class="product-item">
-                                    <div class="product-item__img" style="background-image: url(/assets/image/KuretakeZigKhangNuoc.jpg)">
-                                    </div>
-                                    <h4 class="product-item__name">
-                                        Bút Line Kuretake Zig Kháng Nước
-                                    </h4>
-                                    <div class="product-item__price">
-                                        <span class="product-item__price-new">
-                                            110,000₫
-                                        </span>
-                                        <span class="product-item__price-old">
-                                            120,000₫
-                                        </span>
-                                    </div>
-                                    <div class="product-item__sale-off">
-                                        <span class="product-item__sale-off-percent">
-                                            -9%
-                                        </span>
-                                    </div>
-                                </a>
-                            </div> -->
+                            
                         </div>
                     
                         <!--PAGINATION-->
                         <div class="col-12">
                             <nav> 
                                 <% if(pages>0) {%>
+                                <% let link = (sortby!="")?(`/collections/${type}?sort_by=${sortby}&page=`):(`/collections/${type}?page=`)%>
                                     <ul class="pagination home-product__pagination flex-wrap justify-content-center">
                                         <% if (current === 1){ %>
                                             <li class="pagination-item">
-                                                <a href="/collections/all?page=1" class="pagination-item__link">
+                                                <a href="<%=link%>1" class="pagination-item__link">
                                                     <i class="pagination-item__icon ti-angle-left"></i>
                                                 </a>
                                             </li>
@@ -716,11 +578,11 @@
                                         <% for(;i<=(Number(current)+2)&& i<=pages;i++) { %>
                                             <% if(i==current) {%>
                                                 <li class="pagination-item active">
-                                                    <a class="pagination-item__link" href="/collections/all?page=<%= i %>"><%=i%></a>
+                                                    <a class="pagination-item__link" href="<%=link%><%= i %>"><%=i%></a>
                                                 </li>
                                             <% }  else { %>   
                                                 <li class="pagination-item">
-                                                    <a class="pagination-item__link" href="/collections/all?page=<%= i %>"><%=i%></a>
+                                                    <a class="pagination-item__link" href="<%=link%><%= i %>"><%=i%></a>
                                                 </li>
                                             <% } %>
                                             <% if (i == Number(current) + 2 && i < pages) { %>
@@ -738,7 +600,7 @@
                                               </li>
                                           <% } else { %>
                                               <li class="pagination-item">
-                                                <a class="pagination-item__link" href="/collections/all?page=<%= pages %>/">
+                                                <a class="pagination-item__link" href="<%=link%><%= pages %>/">
                                                   Last
                                                 </a>
                                               </li>

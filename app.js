@@ -17,8 +17,7 @@ var cartRouter = require('./routes/cart')
 var collectionsRouter = require('./routes/collections');
 var productRouter = require('./routes/products');
 var checkoutRouter = require('./routes/checkout');
-var getHeaderData = require('./middlewares/utility').getHeaderData;
-var getCategories = require('./middlewares/utility').getCategories;
+
 var app = express();
 var db = require('./models/db');
 // view engine setup
@@ -43,6 +42,10 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+//Use middlewares
+var getHeaderData = require('./middlewares/utility').getHeaderData;
+var getCategories = require('./middlewares/utility').getCategories;
+var getBrands = require('./middlewares/utility').getBrands;
 //Check if authenticated
 app.use(function(req,res,next){
   res.locals.login = req.isAuthenticated();
@@ -55,7 +58,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth',authRouter);
 app.use('/cart',cartRouter);
-app.use('/collections',getCategories,collectionsRouter);
+app.use('/collections',getCategories,getBrands,collectionsRouter);
 app.use('/products',productRouter);
 app.use('/checkout',checkoutRouter);
 

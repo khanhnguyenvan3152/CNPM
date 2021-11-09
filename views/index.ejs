@@ -40,7 +40,7 @@
                 <div class="slide-title">
                     <h3 class="slide-title__heading">MÀU NƯỚC CÁC LOẠI</h3>
                     <div class="slide-title__viewall">
-                        <a href="" class="slide-title__viewall-link">Xem tất cả</a>
+                        <a href="/collections/màu nước" class="slide-title__viewall-link">Xem tất cả</a>
                     </div>
                 </div>
             </div>
@@ -145,7 +145,7 @@
                 <div class="slide-title">
                     <h3 class="slide-title__heading">SỔ / GIẤY VẼ</h3>
                     <div class="slide-title__viewall">
-                        <a href="" class="slide-title__viewall-link">Xem tất cả</a>
+                        <a href="/collections/sổ giấy" class="slide-title__viewall-link">Xem tất cả</a>
                     </div>
                 </div>
             </div>
@@ -155,7 +155,7 @@
                 <div class="slide-product__wrap">
                     <div class="slide-product__information">
                         <div class="slide-product__stage">
-                            <div class="slide-product__list slideSoGiay owl-carousel owl-theme product-carousel">
+                            <div id="slideSoGiay" class="slide-product__list  owl-carousel owl-theme product-carousel">
 
                             </div>
                         </div>
@@ -186,7 +186,7 @@
                 <div class="slide-title">
                     <h3 class="slide-title__heading">PHỤ KIỆN MỸ THUẬT - KIẾN TRÚC</h3>
                     <div class="slide-title__viewall">
-                        <a href="" class="slide-title__viewall-link">Xem tất cả</a>
+                        <a href="/collections/phụ kiện" class="slide-title__viewall-link">Xem tất cả</a>
                     </div>
                 </div>
             </div>
@@ -297,7 +297,7 @@
                 <div class="slide-title">
                     <h3 class="slide-title__heading">CHÌ MÀU CÁC LOẠI</h3>
                     <div class="slide-title__viewall">
-                        <a href="" class="slide-title__viewall-link">Xem tất cả</a>
+                        <a href="/collections/chì màu" class="slide-title__viewall-link">Xem tất cả</a>
                     </div>
                 </div>
             </div>
@@ -960,8 +960,8 @@
                                   </div>
                                 </div>`)
                 })
-                const prevIcon = "<i class='ti-angle-left slide-product__controls-icon'></i>";
-                const nextIcon = "<i class='ti-angle-right slide-product__controls-icon'></i>";
+                const prevIcon = "<i class='ti-angle-left slider-product__prev slide-product__controls-icon'></i>";
+                const nextIcon = "<i class='ti-angle-right slider-product__prev slide-product__controls-icon'></i>";
                 $(".slideMauNuoc").owlCarousel({
                     loop: true,
                     margin: 0,
@@ -986,7 +986,7 @@
                 console.log(products);
                 products.product.forEach((item) => {
                     console.log(item);
-                    $(".slideSoGiay").append(`
+                    $("#slideSoGiay").append(`
                                 <div class="slide-product__item">
                                   <a href="/products/${item.productCode}" class="slide-product__link">
                                       <img src="${item.images[0]}" alt="" class="slide-product__img">
@@ -1003,9 +1003,9 @@
                                   </div>
                                 </div>`)
                 })
-                const prevIcon = "<i class='ti-angle-left slide-product__controls-icon'></i>";
-                const nextIcon = "<i class='ti-angle-right slide-product__controls-icon'></i>";
-                $(".slideSoGiay").owlCarousel({
+                const prevIcon = "<i class='ti-angle-left slider-product__prev slide-product__controls-icon'></i>";
+                const nextIcon = "<i class='ti-angle-right slider-product__prev slide-product__controls-icon'></i>";
+                $("#slideSoGiay").owlCarousel({
                     loop: true,
                     margin: 0,
                     autoplay: true,
@@ -1013,10 +1013,9 @@
                     autoplayTimeout: 2500,
                     autoplayHoverPause: true,
                     nav:true,
+                    dots:false,
                     navText: [prevIcon, nextIcon]
                 });
-                $(".owl-prev").addClass("slider-product__prev");
-                $(".owl-next").addClass("slider-product__next");
             }
         })
         $(".main-carousel").owlCarousel({
