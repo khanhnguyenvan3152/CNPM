@@ -7,7 +7,9 @@ router.get('/:productCode',async (req,res,next)=>{
     try{
         let product = await Product.findOne({productCode:productCode}).exec();
         let view = product.view + 1;
-        Product.updateOne({_id:product._id},{$set:{view:view}});
+        console.log(view)
+        product.view = view;
+        await product.save();
         res.render('detail',{product:product})
     }
     catch(err){

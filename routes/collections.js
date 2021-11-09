@@ -12,6 +12,9 @@ router.get('/all',(req,res)=>{
     let query = Product.find();
     console.log(sortby)
     switch(sortby){
+        case "popular":
+            query = query.sort({view:1})
+            break;
         case "title-ascending":
             query = query.sort({name:1});
             break;
