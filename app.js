@@ -62,7 +62,7 @@ app.use('/collections',getCategories,getBrands,collectionsRouter);
 app.use('/products',productRouter);
 app.use('/checkout',checkoutRouter);
 
-app.get('/huong-dan-mua-hang',(req,res)=>{
+app.get('/huongdan',(req,res)=>{
   res.render('shoppingguide')
 })
 

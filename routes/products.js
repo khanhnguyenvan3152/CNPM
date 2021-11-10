@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const Product = require('../models/product');
+const getSimilarProduct =require('../middlewares/utility').getSimilarProduct;
 
-router.get('/:productCode',async (req,res,next)=>{
+router.get('/:productCode',getSimilarProduct,async (req,res,next)=>{
     let productCode = req.params.productCode;
     try{
         let product = await Product.findOne({productCode:productCode}).exec();

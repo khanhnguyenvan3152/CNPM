@@ -10,7 +10,13 @@ module.exports = {
     getCategories: async function(req,res,next){
         let data = await Category.find().exec();
         res.locals.categories = data;
-        console.log(data);
+        next();
+    },
+    getSimilarProduct: async function(req,res,next){
+        let productCode = req.params.productCode;
+        let product = await Product.find({productCode:productCode});
+        let similarProducts = await Product.find({type:product[0].type}).where("productCode").ne(product[0].productCode).limit(4).exec();
+        res.locals.similarProducts = similarProducts;
         next();
     },
     getBrands: async function(req,res,next){

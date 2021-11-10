@@ -241,18 +241,22 @@
                     <h3>SẢN PHẨM LIÊN QUAN</h3>
                 </div>
                 <ul class="product-related__list">
-                    <li class="product-related__item">
-                        <a href="" class="product-related__link-img">
-                            <img src="/assets/image/MarvyLepenPastel.webp" alt="">
-                        </a>
-                        <a href="" class="product-related__link">
-                            <h2 class="product-related__heading">Bộ 6 Bút Line Marvy Lepen Pastel</h2>
-                            <p class="product-related__price">
-                                <span>120,000₫</span>
-                            </p>
-                        </a>
-                    </li>
-                    <li class="product-related__item">
+                    <% let products = locals.similarProducts%>
+                    <% products.forEach(p => {%>
+                        <li class="product-related__item">
+                            <a href="/products/<%=p.productCode%>" class="product-related__link-img">
+                                <img src="<%=p.images[0]%>" alt="">
+                            </a>
+                            <a href="/products/<%=p.productCode%>" class="product-related__link">
+                                <h2 class="product-related__heading"><%=p.name%></h2>
+                                <p class="product-related__price">
+                                    <span><%=p.price%>đ</span>
+                                </p>
+                            </a>
+                        </li>
+                    <%})%>
+                   
+                    <!-- <li class="product-related__item">
                         <a href="" class="product-related__link-img">
                             <img src="/assets/image/UNIPin-200.webp" alt="">
                         </a>
@@ -287,7 +291,7 @@
                                 <span>240,000₫</span>
                             </p>
                         </a>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
         </div>
