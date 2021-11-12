@@ -97,12 +97,12 @@
                         <span>Số Lượng:</span>
                         <div class="buttons_added">
                             <input class="minus is-form" type="button" value="-">
-                            <input aria-label="quantity" class="input-qty" max="1000" min="1" name="" type="number" value="1">
+                            <input id="quantity" aria-label="quantity" class="input-qty" max="1000" min="1" name="" type="number" value="1">
                             <input class="plus is-form" type="button" value="+">
                         </div>
                     </div>
                     <div class="product-detail__controls">
-                        <button class="btn btn-add-to-cart">
+                        <button class="btn btn-add-to-cart" id="btnAddProduct">
                             <span class="ti-shopping-cart btn-control__cart-icon"></span>
                             <span>Thêm Vào Giỏ</span>
                         </button>
@@ -330,5 +330,31 @@
             value = value - 1;
             $(".input-qty").prop("value",value); 
         }
+    })
+    $('#btnAddProduct').click(function(){
+        var code = '<%- product.productCode %>'
+        var quantity = $('#quantity').val();
+        var myJson =JSON.stringify( {
+            code: code,
+            quantity:quantity
+        });
+        console.log("code :" + code);
+        console.log('quant :' + quantity);
+        $.ajax({
+                url: '/cart/add',
+                data: myJson,
+                type: "post",
+                method: 'POST',
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    $.notify("thêm thành công !", { title: 'Họa cụ da đen thông báo !' });
+                    console.log(data)
+                },
+                error: function (data) {
+                    alert(data)
+                    console.log(data)
+                }
+            }
+            )
     })
 </script>

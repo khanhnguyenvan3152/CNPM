@@ -15,60 +15,34 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="thumbnail-img">
-                                    <a href="#">
-                                        <img class="img-fluid" src="./assets/image/KuretakeZigKhangNuoc.jpg" alt="" />
-                                    </a>
-                                </td>
-                                <td class="name-pr">
-                                    <a href="">
-                                        Bút Cọ Gốc Nước Calligraphy Kuretake Fudebiyori 48 Màu - Bán Lẻ
-                                    </a>
-                                    <span>202 - Peach Pink</span>
-                                </td>
-                                <td class="price-pr">
-                                    <p>28,000₫</p>
-                                </td>
-                                <td class="quantity-box">
-                                    <input type="number" size="4" data-id="" value="1" min="0" step="1" style="width:80%">
-                                </td>
-                                <td class="total-pr">
-                                    <p>28,000₫</p>
-                                </td>
-                                <td class="remove-pr">
-                                    <a href="#" data-id="" class="btn-delete">
-                                        <i class="ti-trash"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="thumbnail-img">
-                                    <a href="#">
-                                        <img class="img-fluid" src="/assets/image/KuretakeZigKhangNuoc.jpg" alt="" />
-                                    </a>
-                                </td>
-                                <td class="name-pr">
-                                    <a href="">
-                                        Bút Cọ Gốc Nước Calligraphy Kuretake Fudebiyori 48 Màu - Bán Lẻ
-                                    </a>
-                                    <span>202 - Peach Pink</span>
-                                </td>
-                                <td class="price-pr">
-                                    <p>28,000₫</p>
-                                </td>
-                                <td class="quantity-box">
-                                    <input type="number" size="4"  class="txtQuantity" data-id="" value="1" min="0" step="1" style="width:80%">
-                                </td>
-                                <td class="total-pr">
-                                    <p>28,000₫</p>
-                                </td>
-                                <td class="remove-pr">
-                                    <a href="#" data-id="" class="btn-delete">
-                                        <i class="ti-trash"></i>
-                                    </a>
-                                </td>
-                            </tr>
+                            <% cart.forEach(element => { %>
+                                <tr>
+                                    <td class="thumbnail-img">
+                                        <a href="<%= '/products/'+cart.productCode %> ">
+                                            <img class="img-fluid" src="<%= element.image %> " alt="" />
+                                        </a>
+                                    </td>
+                                    <td class="name-pr">
+                                        <a href="<%= '/products/'+element.productCode %> ">
+                                            <%= element.productname %> 
+                                        </a>
+                                    </td>
+                                    <td class="price-pr">
+                                        <p><%= element.price %> </p>
+                                    </td>
+                                    <td class="quantity-box">
+                                        <input type="number" size="4" data-id="" value="<%= element.quantity %>" min="0" step="1" style="width:80%">
+                                    </td>
+                                    <td class="total-pr">
+                                        <p><%= element.price %></p>
+                                    </td>
+                                    <td class="remove-pr">
+                                        <a href="#" data-id="" class="btn-delete">
+                                            <i class="ti-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                           <% }); %> 
                         </tbody>
                     </table>
                 </div>
