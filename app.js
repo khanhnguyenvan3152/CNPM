@@ -17,6 +17,7 @@ var cartRouter = require('./routes/cart')
 var collectionsRouter = require('./routes/collections');
 var productRouter = require('./routes/products');
 var checkoutRouter = require('./routes/checkout');
+var searchRouter = require('./routes/search');
 
 var app = express();
 var db = require('./models/db');
@@ -61,7 +62,7 @@ app.use('/cart',cartRouter);
 app.use('/collections',getCategories,getBrands,collectionsRouter);
 app.use('/products',productRouter);
 app.use('/checkout',checkoutRouter);
-
+app.use('/search',searchRouter)
 app.get('/huongdan',(req,res)=>{
   res.render('shoppingguide')
 })
