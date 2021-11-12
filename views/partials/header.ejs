@@ -593,7 +593,7 @@
         </div>
         <div class="col-md-10 col-sm-10 col-10">
             <div class="header__navbar-search header__navbar-search-mobile">
-                <input type="text" placeholder="Nhập từ khóa tìm kiếm" class="header__navbar-search-input">
+                <input type="text" id="searchBox" placeholder="Nhập từ khóa tìm kiếm" class="header__navbar-search-input">
                 <button class="header__navbar-search-btn btn btn--primary">
                     <i class="ti-search header__navbar-search-icon"></i>
                 </button>
@@ -608,5 +608,14 @@
     </div>
 </div>
 <script>
-
+    function search(){
+        let str = $('#searchBox').val();
+        window.location.href = `/search?q=${str}`
+    }
+    $('.header__navbar-search-input').on("keydown",function(e){
+        if(e.keyCode ==13) search();
+    })
+    $('.header__navbar-search-btn').click(function(){
+        search();
+    })
 </script>

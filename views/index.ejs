@@ -203,8 +203,8 @@
                 <div class="slide-product__wrap">
                     <div class="slide-product__information">
                         <div class="slide-product__stage">
-                            <div class="slide-product__list owl-carousel owl-theme product-carousel">
-                                <div class="slide-product__item">
+                            <div id="slidePhuKien" class="slide-product__list owl-carousel owl-theme product-carousel">
+                                <!-- <div class="slide-product__item">
                                     <a href="" class="slide-product__link">
                                         <img src="/assets/image/wb5049_isoindolinone_yellow_deep_e03b2f101f3e4da7a66bf441ffd93227_medium.webp"
                                             alt="" class="slide-product__img">
@@ -275,7 +275,7 @@
                                             <span class="slide-product__price--old">89,000₫</span>
                                         </p>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                         <!-- <div class="slide-product__controls">
@@ -1006,6 +1006,47 @@
                 const prevIcon = "<i class='ti-angle-left slider-product__prev slide-product__controls-icon'></i>";
                 const nextIcon = "<i class='ti-angle-right slider-product__prev slide-product__controls-icon'></i>";
                 $("#slideSoGiay").owlCarousel({
+                    loop: true,
+                    margin: 0,
+                    autoplay: true,
+                    autoWidth: true,
+                    autoplayTimeout: 2500,
+                    autoplayHoverPause: true,
+                    nav:true,
+                    dots:false,
+                    navText: [prevIcon, nextIcon]
+                });
+            }
+        })
+        $.ajax({
+            url: '/products/getAllProductByGroup/phụ kiện?size=4',
+            method: 'GET',
+            contentType: 'application-json',
+            success: function (response) {
+                let products = JSON.parse(JSON.stringify(response));
+                console.log(products);
+                products.product.forEach((item) => {
+                    console.log(item);
+                    $("#slidePhuKien").append(`
+                                <div class="slide-product__item">
+                                  <a href="/products/${item.productCode}" class="slide-product__link">
+                                      <img src="${item.images[0]}" alt="" class="slide-product__img">
+                                  </a>
+                                  <div class="slide-product__detail">
+                                      <a href="/products/${item.productCode}" class="slide-product__heading-link">
+                                          <h2 class="slide-product__heading" title="Màu Nước Holbein Artist 5ml : ISOINDOLINONE YELLOW DEEP W049 - C">
+                                              ${item.name}
+                                          </h2>
+                                      </a>
+                                      <p class="slide-product__price">
+                                          <span class="slide-product__price--new">${item.price}₫</span>
+                                      </p>
+                                  </div>
+                                </div>`)
+                })
+                const prevIcon = "<i class='ti-angle-left slider-product__prev slide-product__controls-icon'></i>";
+                const nextIcon = "<i class='ti-angle-right slider-product__prev slide-product__controls-icon'></i>";
+                $("#slidePhuKien").owlCarousel({
                     loop: true,
                     margin: 0,
                     autoplay: true,
