@@ -1,6 +1,9 @@
+<% if(typeof locals.cart !=="undefined") {%>
+    <% let cart = locals.cart%>
+    <% let total = cart.reduce((accur,item)=>{return accur+item.price;},0); console.log(cart) %>
 <div class="header__navbar-cart">
     <a class="ti-shopping-cart" style="text-decoration: none;color:black;" href="/cart">
-        <span class="header__navbar-cart-notice">0</span>
+        <span class="header__navbar-cart-notice"><%=cart.length%></cart></span>
     </a>
     <div class="header__navbar-cart-box">
         <div class="header__navbar-cart-mine">
@@ -20,7 +23,27 @@
     </span>
     <!-- HAS CART: header__cart--has-list -->
     <ul class="header__cart-list-item">
-        <li class="header__cart-item">
+     
+      
+        <% cart.forEach(item => {%>
+            <li class="header__cart-item">
+                <a href="" class="header__cart-img-link">
+                    <img src="<%= item.image%>" alt="<%=item.productname%>" class="header__cart-img">
+                </a>
+                <div class="header__cart-info" style="padding-left:10px;">
+                    <a href="/products/<%=item.productCode%>" class="header__cart-item-name">
+                        <span><%= item.productname%></span>
+                    </a>
+                    <div class="header__cart-item-quantity">
+                        <span>Số lượng: <%= item.quantity%></span>
+                    </div>
+                    <div class="header__cart-item-price">
+                        <span>Giá: <%=item.price%>₫</span>
+                    </div>
+                </div>
+            </li>
+        <%})%>
+        <!-- <li class="header__cart-item">
             <a href="" class="header__cart-img-link">
                 <img src="/assets/image/renoir_48_kho1_small.jpg" alt="" class="header__cart-img">
             </a>
@@ -51,32 +74,16 @@
                     <span>Giá: 500,000₫</span>
                 </div>
             </div>
-        </li>
-        <li class="header__cart-item">
-            <a href="" class="header__cart-img-link">
-                <img src="/assets/image/renoir_48_kho1_small.jpg" alt="" class="header__cart-img">
-            </a>
-            <div class="header__cart-info">
-                <a href="" class="header__cart-item-name">
-                    <span>Chì màu khô MARCO RENOIR 48 màu (hộp thiếc)</span>
-                </a>
-                <div class="header__cart-item-quantity">
-                    <span>Số lượng: 1</span>
-                </div>
-                <div class="header__cart-item-price">
-                    <span>Giá: 500,000₫</span>
-                </div>
-            </div>
-        </li>
+        </li> -->
     </ul>
     <span class="header__cart-list-line">
     </span>
     <div class="header__cart-pay">
         <span class="header__cart-total">
-            TỔNG TIỀN:
+            TỔNG TIỀN: 
         </span>
         <span class="header__cart-money">
-            0₫
+            <%= total%>₫
         </span>
     </div>
     <div class="header__cart-function">
@@ -87,4 +94,6 @@
             THANH TOÁN
         </a>
     </div>
+
 </div>
+<%}%>

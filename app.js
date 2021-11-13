@@ -47,13 +47,16 @@ app.use(passport.session());
 var getHeaderData = require('./middlewares/utility').getHeaderData;
 var getCategories = require('./middlewares/utility').getCategories;
 var getBrands = require('./middlewares/utility').getBrands;
+var getCartInfo = require('./middlewares/utility').getCartInfo;
 //Check if authenticated
 app.use(function(req,res,next){
   res.locals.login = req.isAuthenticated();
   next();
 })
 //Get header data for each view
+app.use(getCartInfo);
 app.use(getHeaderData);
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

@@ -1,14 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const Cart = require('../models/cart');
 const User = require('../models/user');
 const Product = require('../models/product');
-const ObjectId = require('mongoose').ObjectId;
 
 router.get('/', async function (req, res) {
-    var id = req.session.passport.user;
-    var user = await User.findById(id);
-    res.render('cart',{cart:user.cart});
+    if (req.isAuthenticated())
+    {
+        let id = req.user._id;
+        console.log(req.session.user)
+        let user = await User.findById(id).exec();
+        res.render('cart',{cart:user.cart});
+    }
+    else{
+       res.redirect('/auth/login');
+    }
 })
 router.post('/add', async function (req, res) {
     console.log(req.body);
@@ -40,14 +45,14 @@ router.post('/add', async function (req, res) {
     try {
         await User.updateOne({ _id: id }, {
             $set: {
-                email: user.email,
-                password: user.password,
-                firstname: user.firstname,
-                lastname: user.lastname,
-                credential: user.credential,
-                phone: user.phone,
-                address: user.address,
-                shippingAddress: user.shippingAddress,
+                // email: user.email,
+                // password: user.password,
+                // firstname: user.firstname,
+                // lastname: user.lastname,
+                // credential: user.credential,
+                // phone: user.phone,
+                // address: user.address,
+                // shippingAddress: user.shippingAddress,
                 cart: carts
             }
         }).exec()
@@ -55,6 +60,16 @@ router.post('/add', async function (req, res) {
     } catch (error) {
         console.log(error)
         res.send(error);
+    }
+})
+
+router.get('/delete/:productCode',async function(req,res,next){
+    try {
+        await User.updateOne({_id:req.session.user},{$pull:{cart:{productCode:productCode}}},{multi:true})
+        res.redirect('/cart');
+    }
+    catch(err){
+        console.log(err)
     }
 })
 module.exports = router;

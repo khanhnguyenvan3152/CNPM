@@ -34,10 +34,10 @@
                                         <input type="number" size="4" data-id="" value="<%= element.quantity %>" min="0" step="1" style="width:80%">
                                     </td>
                                     <td class="total-pr">
-                                        <p><%= element.price %></p>
+                                        <p><%= element.price*element.quantity %></p>
                                     </td>
                                     <td class="remove-pr">
-                                        <a href="#" data-id="" class="btn-delete">
+                                        <a href="/delete/<%=element.productCode%>" data-id="" class="btn-delete">
                                             <i class="ti-trash"></i>
                                         </a>
                                     </td>

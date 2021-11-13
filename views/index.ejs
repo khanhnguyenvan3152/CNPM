@@ -940,9 +940,7 @@
             contentType: 'application-json',
             success: function (response) {
                 let products = JSON.parse(JSON.stringify(response));
-                console.log(products);
                 products.product.forEach((item) => {
-                    console.log(item);
                     $(".slideMauNuoc").append(`
                                 <div class="slide-product__item">
                                   <a href="/products/${item.productCode}" class="slide-product__link">
@@ -983,9 +981,7 @@
             contentType: 'application-json',
             success: function (response) {
                 let products = JSON.parse(JSON.stringify(response));
-                console.log(products);
                 products.product.forEach((item) => {
-                    console.log(item);
                     $("#slideSoGiay").append(`
                                 <div class="slide-product__item">
                                   <a href="/products/${item.productCode}" class="slide-product__link">

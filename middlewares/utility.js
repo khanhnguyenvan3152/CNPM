@@ -1,6 +1,7 @@
 const Header = require('../models/header');
 const Category = require('../models/category');
 const Product = require('../models/product');
+const User = require('../models/user')
 module.exports = {
     getHeaderData : async function(req,res,next){
         let data = await Header.find().exec();
@@ -10,6 +11,14 @@ module.exports = {
     getCategories: async function(req,res,next){
         let data = await Category.find().exec();
         res.locals.categories = data;
+        next();
+    },
+    getCartInfo: async function(req,res,next){
+        if(req.isAuthenticated() ==true){
+            let uid = req.session.passport.user;
+            const result = await User.findOne({_id:uid}).exec();
+            res.locals.cart = result.cart;
+        }
         next();
     },
     getSimilarProduct: async function(req,res,next){
