@@ -387,6 +387,7 @@
 <script>
     function search(){
         let str = $('#searchBox').val();
+        alert(str);
         window.location.href = `/search?q=${str}`
     }
     $('.header__navbar-search-input').on("keydown",function(e){
