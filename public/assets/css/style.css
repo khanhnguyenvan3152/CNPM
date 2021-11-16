@@ -653,6 +653,7 @@
 
 /* PRODUCT */
 .product{
+    width: 100%;
     margin: 16px 0 0 0px;
     display: flex;
     justify-content: flex-start;

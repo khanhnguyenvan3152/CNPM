@@ -1,3 +1,10 @@
+<%    const  numberWithCommas = (number)=>{
+    return number.toString().replace(
+        /\B(?=(\d{3})+(?!\d))/g,
+        ","
+    );
+}
+%> 
 <div class="bread-crumb-background">
     <div class="container">
      <div class="row">
@@ -28,7 +35,7 @@
             </div>
             <div class="product-detail__brand">
                 <span>Thương hiệu:</span>
-                <a href="" class="product-detail__brand-link"><%=product.brand%></a>
+                <a href="/collections/vendors?q=<%=product.brand%>" class="product-detail__brand-link"><%=product.brand%></a>
             </div>
         </div>
     </div>
@@ -63,9 +70,9 @@
                     <div class="short_descrition_tab"></div>
                     <div class="product-type">
                         <div class="product-type__wrapper">
-                            <span class="product-type__title">Tiêu đề</span>
+                            <span class="product-type__title">Loại</span>
                             <ul class="product-type__list">
-                                <li class="product-type__item">
+                                <!-- <li class="product-type__item">
                                     <label for="selectType">
                                         <input id="selectType" type="radio" checked="checked" value="ToneGray" name="OptionType" class="selectActive">
                                         <span>Tone Gray</span>
@@ -76,33 +83,33 @@
                                         <input id="selectType1" type="radio" value="ToneBrown" name="OptionType">
                                         <span>Tone Brown</span>
                                     </label>
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
                     </div>
                     <div class="product-price">
                         <div class="product-price__current">
-                            110,000₫
+                            <%= numberWithCommas(product.price)%>đ
                         </div>
-                        <div class="product-price__past">
+                        <!-- <div class="product-price__past">
                             <span>Giá trước đây:</span>
                             <del>120,000₫</del>
                         </div>
                         <div class="product-price__percent">
                             <span>Tiết kiệm:</span>
                             <b>8%</b>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="product-quantity">
                         <span>Số Lượng:</span>
                         <div class="buttons_added">
                             <input class="minus is-form" type="button" value="-">
-                            <input aria-label="quantity" class="input-qty" max="1000" min="1" name="" type="number" value="1">
+                            <input id="quantity" aria-label="quantity" class="input-qty" max="1000" min="1" name="" type="number" value="1">
                             <input class="plus is-form" type="button" value="+">
                         </div>
                     </div>
                     <div class="product-detail__controls">
-                        <button class="btn btn-add-to-cart">
+                        <button class="btn btn-add-to-cart" id="btnAddProduct">
                             <span class="ti-shopping-cart btn-control__cart-icon"></span>
                             <span>Thêm Vào Giỏ</span>
                         </button>
@@ -219,15 +226,11 @@
         <div class="product-comment">
             <div class="product-comment__wrapper">
                 <div class="product-comment__title">
-                    <h3>Giới thiệu về sản phẩm Bộ 6 bút Brush Marvy tone xám/ tone nâu</h3>
+                    <h3>Giới thiệu về sản phẩm <%= product.name%></h3>
                 </div>
                 <div class="product-comment__description">
                     <div class="product-comment__description-wrapper">
-                        <p>
-                            <span>- Sử dụng trực tiếp, có sẵn mực</span>
-                            <br>
-                            <span>- Thể hiện bản vẽ kiến trúc - kỹ thuật, vẽ manga, chibi, minh họa,...</span>
-                        </p>
+                      <%- product.description%>
                     </div>
                 </div>
             </div>
@@ -245,18 +248,22 @@
                     <h3>SẢN PHẨM LIÊN QUAN</h3>
                 </div>
                 <ul class="product-related__list">
-                    <li class="product-related__item">
-                        <a href="" class="product-related__link-img">
-                            <img src="/assets/image/MarvyLepenPastel.webp" alt="">
-                        </a>
-                        <a href="" class="product-related__link">
-                            <h2 class="product-related__heading">Bộ 6 Bút Line Marvy Lepen Pastel</h2>
-                            <p class="product-related__price">
-                                <span>120,000₫</span>
-                            </p>
-                        </a>
-                    </li>
-                    <li class="product-related__item">
+                    <% let products = locals.similarProducts%>
+                    <% products.forEach(p => {%>
+                        <li class="product-related__item">
+                            <a href="/products/<%=p.productCode%>" class="product-related__link-img">
+                                <img src="<%=p.images[0]%>" alt="">
+                            </a>
+                            <a href="/products/<%=p.productCode%>" class="product-related__link">
+                                <h2 class="product-related__heading"><%=p.name%></h2>
+                                <p class="product-related__price">
+                                    <span><%=numberWithCommas(p.price)%>đ</span>
+                                </p>
+                            </a>
+                        </li>
+                    <%})%>
+                   
+                    <!-- <li class="product-related__item">
                         <a href="" class="product-related__link-img">
                             <img src="/assets/image/UNIPin-200.webp" alt="">
                         </a>
@@ -291,7 +298,7 @@
                                 <span>240,000₫</span>
                             </p>
                         </a>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
         </div>
@@ -320,6 +327,42 @@
 </div>
 <script>
     $(".plus").click(function(){
-
+        let value = Number($(".input-qty").val())
+        value = value + 1;
+        $(".input-qty").prop("value",value); 
+    })
+    $(".minus").click(function(){
+        let value = Number($(".input-qty").val());
+        if(value>1){
+            value = value - 1;
+            $(".input-qty").prop("value",value); 
+        }
+    })
+    $('#btnAddProduct').click(function(){
+        var code = '<%- product.productCode %>'
+        var quantity = $('#quantity').val();
+        var myJson =JSON.stringify( {
+            code: code,
+            quantity:quantity,
+            typechange:0
+        });
+        console.log("code :" + code);
+        console.log('quant :' + quantity);
+        $.ajax({
+                url: '/cart/addOrUpdate',
+                data: myJson,
+                type: "post",
+                method: 'POST',
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    $.notify("thêm thành công !",{className: "success"});
+                    console.log(data)
+                },
+                error: function (data) {
+                    alert(data)
+                    console.log(data)
+                }
+            }
+            )
     })
 </script>

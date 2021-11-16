@@ -1,10 +1,22 @@
+<% var total = 0 ;
+   cart.forEach(element => {
+       var price = element.price * element.quantity;
+       total += price;
+   });
+   const  numberWithCommas = (number)=>{
+            return number.toString().replace(
+                /\B(?=(\d{3})+(?!\d))/g,
+                ","
+            );
+        }
+%> 
 <div class="cart-box-main">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 pd5">
+            <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12 pd5">
                 <h3 class="cart-title">Giỏ hàng</h3>
                 <div class="table-main">
-                    <table class="table">
+                    <table class="table" id="tablecart">
                         <thead>
                             <tr>
                                 <th colspan="2">Sản phẩm</th>
@@ -15,60 +27,30 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="thumbnail-img">
-                                    <a href="#">
-                                        <img class="img-fluid" src="./assets/image/KuretakeZigKhangNuoc.jpg" alt="" />
-                                    </a>
-                                </td>
-                                <td class="name-pr">
-                                    <a href="">
-                                        Bút Cọ Gốc Nước Calligraphy Kuretake Fudebiyori 48 Màu - Bán Lẻ
-                                    </a>
-                                    <span>202 - Peach Pink</span>
-                                </td>
-                                <td class="price-pr">
-                                    <p>28,000₫</p>
-                                </td>
-                                <td class="quantity-box">
-                                    <input type="number" size="4" data-id="" value="1" min="0" step="1" style="width:80%">
-                                </td>
-                                <td class="total-pr">
-                                    <p>28,000₫</p>
-                                </td>
-                                <td class="remove-pr">
-                                    <a href="#" data-id="" class="btn-delete">
-                                        <i class="ti-trash"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="thumbnail-img">
-                                    <a href="#">
-                                        <img class="img-fluid" src="/assets/image/KuretakeZigKhangNuoc.jpg" alt="" />
-                                    </a>
-                                </td>
-                                <td class="name-pr">
-                                    <a href="">
-                                        Bút Cọ Gốc Nước Calligraphy Kuretake Fudebiyori 48 Màu - Bán Lẻ
-                                    </a>
-                                    <span>202 - Peach Pink</span>
-                                </td>
-                                <td class="price-pr">
-                                    <p>28,000₫</p>
-                                </td>
-                                <td class="quantity-box">
-                                    <input type="number" size="4"  class="txtQuantity" data-id="" value="1" min="0" step="1" style="width:80%">
-                                </td>
-                                <td class="total-pr">
-                                    <p>28,000₫</p>
-                                </td>
-                                <td class="remove-pr">
-                                    <a href="#" data-id="" class="btn-delete">
-                                        <i class="ti-trash"></i>
-                                    </a>
-                                </td>
-                            </tr>
+                            <% cart.forEach(element => { %>
+                                <tr id="<%= element.productCode %>">
+                                    <td class="thumbnail-img">
+                                        <a href="<%= '/products/'+element.productCode %> ">
+                                            <img class="img-fluid" src="<%= element.image %> " alt="" />
+                                        </a>
+                                    </td>
+                                    <td class="name-pr">
+                                        <a href="<%= '/products/'+element.productCode %> ">
+                                            <%= element.productname %> 
+                                        </a>
+                                    </td>
+                                    <td class="price-pr"><%= numberWithCommas(element.price) %></td>
+                                    <td class="quantity-box">
+                                        <input class="changeQuantity" type="number" size="4" data-id="" value="<%= element.quantity %>" min="0" step="1" style="width:80%">
+                                    </td>
+                                    <td class="total-pr" ><%= numberWithCommas(element.price * element.quantity) %></td>
+                                    <td class="remove-pr">
+                                        <a  data-id="" class="btn-delete" onclick="removeProduct(this)">
+                                            <i class="ti-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                           <% }); %> 
                         </tbody>
                     </table>
                 </div>
@@ -122,16 +104,16 @@
                 </div>
                 <!--END CART MOBILE-->
                 <div class="cart-btn__controls">
-                    <button id="btnUpdate" class="btn btn-theme">Mua Tiếp</button>
-                    <button id="btnContinue" class="btn btn-theme">Cập Nhật Giỏ Hàng</button>
+                    <a id="btnUpdate" href="/collections/all" class="btn btn-theme">Mua Tiếp</a>
+                    <a id="btnContinue" class="btn btn-theme">Cập Nhật Giỏ Hàng</a>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 pd5">
+            <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 pd5">
                 <div class="order-box">
                     <h3>Đơn hàng</h3>
                     <div class="d-flex">
                         <h4>Tổng tiền</h4>
-                        <div class="ml-auto font-weight-bold">56,000₫ </div>
+                        <div class="ml-auto font-weight-bold totalprice" id="oldtotal"><%= numberWithCommas(total) +'đ' %>  </div>
                     </div>
                     <div class="d-flex">
                         <h4>Giảm giá</h4>
@@ -140,7 +122,7 @@
                     <hr class="my-1">
                     <div class="d-flex gr-total">
                         <h5>Thành tiền</h5>
-                        <div class="ml-auto h5" style="color:#e32124">56,000₫ </div>
+                        <div class="ml-auto h5 totalprice" id="totalPrice" style="color:#e32124"><%= numberWithCommas(total) +'đ' %> </div>
                     </div>
                     <hr>
                 </div>
@@ -151,3 +133,93 @@
         </div>
     </div>
 </div>
+<script>
+    const numberWithCommas = (number) => {
+        return number.toString().replace(
+            /\B(?=(\d{3})+(?!\d))/g,
+            ","
+        );
+    }
+    $('.changeQuantity').change(function () {
+        $(this).prop('disabled',true);
+        var quantity = $(this).val();
+        var note ;
+        var note2 ;
+        $(this).parent().parent().find('td').each(function (index, element) {
+            if (index == 2) note = parseInt($(element).text().replaceAll(",", ""));
+            if (index == 4) {
+                note2 =note * parseInt(quantity);
+                $(element).text(numberWithCommas(note2));
+            }
+        });
+
+        var code;
+        var code = $(this).parent().parent().attr('id');
+        console.log(code);
+        var json = {
+            code: code,
+            quantity: quantity,
+            typechange: 1
+        };
+        var myJson = JSON.stringify(json);
+
+        var test = [];
+        $('#tablecart').find("tr").each(function (index, element) {
+                    if (index > 0) {
+                        $(element).find('td').each(function (index, element) {
+                            if(index==4) test.push($(element).text().replaceAll(",",""));
+                        });
+                    }
+                }
+            );
+            console.log("test : "+test)
+         var newtotalPrice =0;
+         for (const i of test) {
+             console.log(i);
+            newtotalPrice+= parseInt(i);
+         }
+        //  test.forEach(element => {
+        //      newtotalPrice+= parseInt(element);
+        //  });
+         console.log(" total : "+newtotalPrice)
+        $.ajax({
+            url: '/cart/addOrUpdate',
+            data: myJson,
+            type: "post",
+            method: 'POST',
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                $("#oldtotal").text(numberWithCommas(newtotalPrice) + 'đ');
+                $("#totalPrice").text(numberWithCommas(newtotalPrice) + 'đ');
+                $('.changeQuantity').prop('disabled',false);
+            },
+            error: function (data) {
+                console.log(data)
+                $('.changeQuantity').prop('disabled',false);
+            }
+        }
+        )
+    });
+    $('#btnContinue').click(function () {
+        $.notify("Có cl ý tin người vkl !");
+    })
+ 
+    function removeProduct(btn) {
+        var code = $(btn).parent().parent().attr('id');
+        $.ajax({
+            url: '/cart/delete/'+code,
+            type: "delete",
+            method: 'DELETE',
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                $(this).parent().parent().remove();
+                console.log(data);
+            },
+            error: function (data) {
+                console.log(data)
+            }
+        }
+        )
+            $(btn).parent().parent().remove();
+        }
+</script>

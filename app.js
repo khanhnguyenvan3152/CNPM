@@ -17,6 +17,8 @@ var cartRouter = require('./routes/cart')
 var collectionsRouter = require('./routes/collections');
 var productRouter = require('./routes/products');
 var checkoutRouter = require('./routes/checkout');
+var searchRouter = require('./routes/search');
+
 var app = express();
 var db = require('./models/db');
 // view engine setup
@@ -28,7 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.disable('view cache')
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(expressLayouts);
 
@@ -41,21 +43,29 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+//Use middlewares
+var getHeaderData = require('./middlewares/utility').getHeaderData;
+var getCategories = require('./middlewares/utility').getCategories;
+var getBrands = require('./middlewares/utility').getBrands;
+var getCart = require('./middlewares/utility').getCartDisplay;
 //Check if authenticated
 app.use(function(req,res,next){
   res.locals.login = req.isAuthenticated();
   next();
 })
+//Get header data for each view
+app.use(getHeaderData);
+app.use(getCart);
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth',authRouter);
 app.use('/cart',cartRouter);
-app.use('/collections',collectionsRouter);
+app.use('/collections',getCategories,getBrands,collectionsRouter);
 app.use('/products',productRouter);
 app.use('/checkout',checkoutRouter);
-
-app.get('/huong-dan-mua-hang',(req,res)=>{
+app.use('/search',searchRouter)
+app.get('/huongdan',(req,res)=>{
   res.render('shoppingguide')
 })
 
@@ -72,7 +82,6 @@ app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
   // render the error page
   res.status(err.status || 500);
   res.render('error',{layout:false});
