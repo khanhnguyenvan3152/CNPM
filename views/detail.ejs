@@ -89,11 +89,7 @@
                     </div>
                     <div class="product-price">
                         <div class="product-price__current">
-<<<<<<< HEAD
-                            <%= product.price%>đ
-=======
                             <%= numberWithCommas(product.price)%>đ
->>>>>>> dec6da08f36503900b38910b964048d53a2e26f8
                         </div>
                         <!-- <div class="product-price__past">
                             <span>Giá trước đây:</span>
@@ -261,11 +257,7 @@
                             <a href="/products/<%=p.productCode%>" class="product-related__link">
                                 <h2 class="product-related__heading"><%=p.name%></h2>
                                 <p class="product-related__price">
-<<<<<<< HEAD
-                                    <span><%=p.price%>đ</span>
-=======
                                     <span><%=numberWithCommas(p.price)%>đ</span>
->>>>>>> dec6da08f36503900b38910b964048d53a2e26f8
                                 </p>
                             </a>
                         </li>
@@ -363,7 +355,7 @@
                 method: 'POST',
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
-                    $.notify("thêm thành công !",{className: "success"});
+                    $.notify("Thêm thành công !",{className: "success"});
                     console.log(data)
                 },
                 error: function (data) {
