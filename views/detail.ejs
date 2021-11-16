@@ -1,3 +1,10 @@
+<%    const  numberWithCommas = (number)=>{
+    return number.toString().replace(
+        /\B(?=(\d{3})+(?!\d))/g,
+        ","
+    );
+}
+%> 
 <div class="bread-crumb-background">
     <div class="container">
      <div class="row">
@@ -82,7 +89,11 @@
                     </div>
                     <div class="product-price">
                         <div class="product-price__current">
+<<<<<<< HEAD
                             <%= product.price%>đ
+=======
+                            <%= numberWithCommas(product.price)%>đ
+>>>>>>> dec6da08f36503900b38910b964048d53a2e26f8
                         </div>
                         <!-- <div class="product-price__past">
                             <span>Giá trước đây:</span>
@@ -250,7 +261,11 @@
                             <a href="/products/<%=p.productCode%>" class="product-related__link">
                                 <h2 class="product-related__heading"><%=p.name%></h2>
                                 <p class="product-related__price">
+<<<<<<< HEAD
                                     <span><%=p.price%>đ</span>
+=======
+                                    <span><%=numberWithCommas(p.price)%>đ</span>
+>>>>>>> dec6da08f36503900b38910b964048d53a2e26f8
                                 </p>
                             </a>
                         </li>
@@ -336,18 +351,19 @@
         var quantity = $('#quantity').val();
         var myJson =JSON.stringify( {
             code: code,
-            quantity:quantity
+            quantity:quantity,
+            typechange:0
         });
         console.log("code :" + code);
         console.log('quant :' + quantity);
         $.ajax({
-                url: '/cart/add',
+                url: '/cart/addOrUpdate',
                 data: myJson,
                 type: "post",
                 method: 'POST',
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
-                    $.notify("thêm thành công !", { title: 'Họa cụ da đen thông báo !' });
+                    $.notify("thêm thành công !",{className: "success"});
                     console.log(data)
                 },
                 error: function (data) {

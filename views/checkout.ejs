@@ -1,3 +1,16 @@
+<%    const  numberWithCommas = (number)=>{
+    return number.toString().replace(
+        /\B(?=(\d{3})+(?!\d))/g,
+        ","
+    );
+}
+var total=0;
+var totalprice = 0;
+customerCart.forEach(element => {
+    total+= parseInt(element.quantity);
+    totalprice+= parseInt(element.quantity)*parseInt(element.price);
+});
+%> 
 <div class="cart-box-main">
     <div class="container">
         <div class="row">
@@ -10,7 +23,7 @@
                         <div class="row mb-3">
                             <div class="col-lg-12 col-sm-12 col-xs-12">
                                 <input type="text" class="form-control" id="shipName" name="shipName" placeholder="Họ Và Tên Người Nhận" value="" required>
-                                <div class="invalid-feedback"> Bạn phải nhập họ và tên </div>
+                                <div class="invalid-feedback" > Bạn phải nhập họ và tên </div>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -116,20 +129,22 @@
                                 <h3>Thông tin giỏ hàng</h3>
                             </div>
                             <div class="rounded p-2 bg-light">
-                                    <div class="media mb-2 border-bottom information-product">
+                                   <% customerCart.forEach(element => { %>
+                                        <div class="media mb-2 border-bottom information-product">
                                         <div class="product__image">
-                                            <img src="/assets/image/KuretakeZigKhangNuoc.jpg" alt="">
+                                            <img src="<%= element.image %>" alt="">
                                         </div>
                                         <div class="media-body">
-                                            <a href="">Bút Cọ Gốc Nước Calligraphy Kuretake Fudebiyori 48 Màu - Bán Lẻ</a>
+                                            <a href="/products/<%= element.productCode %>"><%= element.productname %></a>
                                             <div class="small text-muted">
-                                            <span>202 - Peach Pink</span>
-                                            <span class="mx-2">|</span>
-                                            <span class="mx-2">Giá: 28,000₫</span>
-                                            <span class="mx-2">|</span> Số lượng: 1 <span class="mx-2">|</span> Thành tiền: 56,000₫
+                                            <!-- <span>202 - Peach Pink</span>
+                                            <span class="mx-2">|</span> -->
+                                            <span class="mx-2">Giá: <%= numberWithCommas(element.price) %>₫</span>
+                                            <span class="mx-2">|</span> Số lượng: <%= element.quantity %> <span class="mx-2">|</span> Thành tiền: <%= numberWithCommas(parseInt(element.quantity)*parseInt(element.price)) %>₫
                                         </div>
                                     </div>
                                 </div>
+                                 <%  }); %> 
                             </div>
                         </div>
                     </div>
@@ -138,7 +153,7 @@
                             <hr class="my-1">
                             <div class="d-flex payment__price">
                                 <h4>Tạm tính</h4>
-                                <div class="ml-auto font-weight-bold">56,000₫ </div>
+                                <div class="ml-auto font-weight-bold"><%= numberWithCommas(totalprice) %>₫ </div>
                             </div>
                             <div class="d-flex payment__price">
                                 <h4>Giảm giá</h4>
@@ -151,14 +166,14 @@
                             <hr>
                             <div class="d-flex gr-total payment__price">
                                 <h5>Thành tiền</h5>
-                                <div class="ml-auto h5"><input style="text-align:right" disabled type="text" class="form-control" id="totalprice" name="totalprice" placeholder="" value="91,000₫"></div>
+                                <div class="ml-auto h5"><input style="text-align:right" disabled type="text" class="form-control" id="totalprice" name="totalprice" placeholder="" value="<%= numberWithCommas(totalprice+parseInt(35000)) %>₫"></div>
                             </div>
                             <hr>
                         </div>
                     </div>
                     <div class="col-md-12 col-lg-12 col-sm-12">
                         <div class="col-lg-12 d-flex shopping-box col-xs-12"> 
-                            <button type="submit" class="btn-pay btn btn--primary">ĐẶT HÀNG</button>
+                            <button type="submit" id="order" class="btn-pay btn btn--primary">ĐẶT HÀNG</button>
                         </div>
                     </div>
                 </div>
@@ -480,4 +495,54 @@
 
     pay.addEventListener('click', Live);
     bank.addEventListener('click', Online);
+    
+        $('#order').click(function(){
+        var username = $('#shipName').val();
+        var email = $('#email').val();
+        var phone = $('#phone').val();
+        var address = $('#address').val();
+        var indexprovince = $('#provinces').val();
+        var province= provinces[indexprovince];
+
+        var indexdistrict = $('#district').val();
+        var district = province.cities[indexdistrict];
+
+        var totalprice= $('#totalprice').val().replaceAll(",","").replace("₫","");
+        var user = {
+            name:username,
+            phone:phone,
+            email:email,
+            province:province.name,
+            district: district
+        }
+        var typepay = $("#pay").is(":checked") ? 0 : 1;
+        
+
+        var data = {
+            totalprice: totalprice,
+            note: "",
+            user: user,
+            addressShip: address,
+            typePay: typepay,
+            status: 1 // hủy bỏ - đã tiếp nhận - đang chuẩn bị hàng - đang chuyển hàng - hoàn thành 
+        }
+        var json = JSON.stringify(data);
+        console.log(json);
+        $.ajax({
+            url: '/checkout/add',
+            data: json,
+            type: "post",
+            method: 'POST',
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                window.location.replace("/");
+            },
+            error: function (data) {
+                console.log(data)
+                $.notify(data, {className: "error"})
+            }
+        }
+        )
+
+    })
 </script>

@@ -27,7 +27,7 @@ const UserSchema = new mongoose.Schema(
             productname: {type:String,default:""},
             quantity: {type:Number,default:""},
             price: {type:Number,default:""},
-            image:{type:String,default:""},
+            image:{type:String,default:""}
         }]
     }, 
     {timestamps:true}

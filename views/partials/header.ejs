@@ -56,7 +56,7 @@
         <!-- NAVBAR CART -->
         <div class="col-xs-2 col-md-2 col-sm-1">
             <div class="header__cart-wrap">
-                <%- include('header_cart.ejs') %>
+                <%- include('header_cart.ejs',{customerCart:locals.customerCart}) %>
             </div>
         </div>
     </div>
@@ -86,7 +86,230 @@
 
                 </li>
                 <%})%>
-         </ul>
+                    <!-- <li class="header__menu-item">
+
+                        <ul class="header__menu-list-child">
+
+                            <li class="header__menu-item-child">
+                                <a href="" class="header__menu-item-link-child">
+                                    BÚT BRUSH CALLIGRAPHY
+                                </a>
+                            </li>
+                            <li class="header__menu-item-child">
+                                <a href="" class="header__menu-item-link-child">
+                                    BÚT GEL MỰC TRẮNG
+                                </a>
+                            </li>
+                            <li class="header__menu-item-child">
+                                <a href="" class="header__menu-item-link-child">
+                                    BÚT DẠ QUANG
+                                </a>
+                            </li>
+                            <li class="header__menu-item-child">
+                                <a href="" class="header__menu-item-link-child">
+                                    BÚT CHÌ PHÁC THẢO
+                                </a>
+                            </li>
+                            <li class="header__menu-item-child">
+                                <a href="" class="header__menu-item-link-child">
+                                    BÚT SƠN
+                                </a>
+                            </li>
+                            <li class="header__menu-item-child">
+                                <a href="" class="header__menu-item-link-child">
+                                    BÚT CHÌ KIM
+                                </a>
+                            </li>
+                            <li class="header__menu-item-child">
+                                <a href="" class="header__menu-item-link-child">
+                                    BÚT SẮT,MỰC VẼ
+                                </a>
+                            </li>
+                            <li class="header__menu-item-child">
+                                <a href="" class="header__menu-item-link-child">
+                                    NGÒI CHÌ
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="header__menu-item">
+                        <a href="/collections/all" class="header__menu-item-link">
+                            MÀU-MỰC
+                        </a>
+                        <ul class="header__menu-list-child">
+                            <li class="header__menu-item-child">
+                                <a href="" class="header__menu-item-link-child">
+                                    MÀU NƯỚC
+                                </a>
+                            </li>
+                            <li class="header__menu-item-child">
+                                <a href="" class="header__menu-item-link-child">
+                                    MÀU GOUACHE
+                                </a>
+                            </li>
+                            <li class="header__menu-item-child">
+                                <a href="" class="header__menu-item-link-child">
+                                    MÀU ACRYLIC - OIL
+                                </a>
+                            </li>
+                            <li class="header__menu-item-child">
+                                <a href="" class="header__menu-item-link-child">
+                                    MÀU POSTER
+                                </a>
+                            </li>
+                            <li class="header__menu-item-child">
+                                <a href="" class="header__menu-item-link-child">
+                                    PHẤN TIÊN
+                                </a>
+                            </li>
+                            <li class="header__menu-item-child">
+                                <a href="" class="header__menu-item-link-child">
+                                    MỰC VẼ
+                                </a>
+                            </li>
+                            <li class="header__menu-item-child">
+                                <a href="" class="header__menu-item-link-child">
+                                    MÀU NGA
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="header__menu-item">
+                        <a href="/collections/all" class="header__menu-item-link">
+                            CHÌ MÀU
+                        </a>
+                        <ul class="header__menu-list-child">
+                            <li class="header__menu-item-child">
+                                <a href="" class="header__menu-item-link-child">
+                                    CHÌ MÀU KHÔ
+                                </a>
+                            </li>
+                            <li class="header__menu-item-child">
+                                <a href="" class="header__menu-item-link-child">
+                                    CHÌ MÀU NƯỚC
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="header__menu-item">
+                        <a href="" class="header__menu-item-link">
+                            SỔ-GIẤY
+                        </a>
+                        <ul class="header__menu-list-child">
+                            <li class="header__menu-item-child">
+                                <a href="" class="header__menu-item-link-child">
+                                    SỔ VẼ
+                                </a>
+                            </li>
+                            <li class="header__menu-item-child">
+                                <a href="" class="header__menu-item-link-child">
+                                    TỆP GIẤY RỜI
+                                </a>
+                            </li>
+                            <li class="header__menu-item-child">
+                                <a href="" class="header__menu-item-link-child">
+                                    CANVAS
+                                </a>
+                            </li>
+                            <li class="header__menu-item-child">
+                                <a href="" class="header__menu-item-link-child">
+                                    KLONG
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="header__menu-item">
+                        <a href="" class="header__menu-item-link">
+                            MARKER-BRUSH
+                        </a>
+                        <ul class="header__menu-list-child" style="right:-109px">
+                            <li class="header__menu-item-child">
+                                <a href="" class="header__menu-item-link-child">
+                                    TOUCH MARKER
+                                </a>
+                            </li>
+                            <li class="header__menu-item-child">
+                                <a href="" class="header__menu-item-link-child">
+                                    BÚT BRUSH TOMBOW
+                                </a>
+                            </li>
+                            <li class="header__menu-item-child">
+                                <a href="" class="header__menu-item-link-child">
+                                    HIGH LIGHTER
+                                </a>
+                            </li>
+                            <li class="header__menu-item-child">
+                                <a href="" class="header__menu-item-link-child">
+                                    BRUSH KHÁC
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="header__menu-item">
+                        <a href="" class="header__menu-item-link">
+                            CỌ VẼ
+                        </a>
+                        <ul class="header__menu-list-child">
+                            <li class="header__menu-item-child">
+                                <a href="" class="header__menu-item-link-child">
+                                    CỌ LÔNG
+                                </a>
+                            </li>
+                            <li class="header__menu-item-child">
+                                <a href="" class="header__menu-item-link-child">
+                                    WATER BRUSH
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="header__menu-item">
+                        <a href="" class="header__menu-item-link">
+                            PHỤ KIỆN
+                        </a>
+                        <ul class="header__menu-list-child">
+                            <li class="header__menu-item-child">
+                                <a href="" class="header__menu-item-link-child">
+                                    NGÒI CHÌ
+                                </a>
+                            </li>
+                            <li class="header__menu-item-child">
+                                <a href="" class="header__menu-item-link-child">
+                                    PALETTE
+                                </a>
+                            </li>
+                            <li class="header__menu-item-child">
+                                <a href="" class="header__menu-item-link-child">
+                                    GÔM-TẨY
+                                </a>
+                            </li>
+                            <li class="header__menu-item-child">
+                                <a href="" class="header__menu-item-link-child">
+                                    DAO RỌC GIẤY
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="header__menu-item" style="margin-right:20px">
+                        <a href="" class="header__menu-item-link">
+                            GIÁ VẼ & CANVAS
+                        </a>
+                    </li>
+                    <li class="header__menu-item" style="margin-right:20px">
+                        <a href="" class="header__menu-item-link">
+                            BULLET JOURNAL
+                        </a>
+                    </li>
+                    <li class="header__menu-item">
+                        <a href="" class="header__menu-item-link">
+                            MONT MARTE
+                        </a>
+                    </li>
+                    <li class="header__menu-item">
+                        <a href="/lien-he" class="header__menu-item-link">
+                            LIÊN HỆ
+                        </a>
+                    </li> -->
+        </ul>
     </div>
 </div>
 <!--HEADER NAVBAR MOBILE-->
