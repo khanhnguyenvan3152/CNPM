@@ -4,23 +4,36 @@ const User = require('../models/user');
 const Product = require('../models/product');
 
 router.get('/', async function (req, res) {
-    if (req.isAuthenticated())
-    {
-        let id = req.user._id;
-        console.log(req.session.user)
-        let user = await User.findById(id).exec();
-        res.render('cart',{cart:user.cart});
+
+    // var json = JSON.parse(req.cookies.cart);
+    // res.send(req.cookies.cart);
+
+
+    var id = req.session.passport;
+    var cart = [];
+    if (id != undefined) {
+        id = id.user;
+        var user = await User.findById(id);
+        cart = user.cart;
     }
-    else{
-       res.redirect('/auth/login');
+    else {
+        var cookie = req.cookies.cart;
+        if (cookie != undefined) {
+            cart = JSON.parse(cookie);
+        }
+        else {
+            var value = JSON.stringify(cart);
+            res.cookie('cart', value, { maxAge: 900000, httpOnly: true });
+        }
     }
+
+    res.sendStatus = 200;
+    res.render('cart', { cart: cart });
 })
-router.post('/add', async function (req, res) {
-    console.log(req.body);
-    var id = req.session.passport.user;
-    var product = await Product.findOne({ productCode: req.body.code });
-    console.log("->>>>>>>>product : "+product);
-    var user = await User.findOne({ _id: id });
+router.post('/addOrUpdate', async function (req, res) {
+    console.log(req.body + req.body.code);
+    var id = req.session.passport;
+    var product = await Product.findOne({ productCode: String(req.body.code) });
     var item = {
         productCode: req.body.code,
         productname: product.name,
@@ -29,47 +42,100 @@ router.post('/add', async function (req, res) {
         image: product.images[0]
     };
 
-    var carts = user.cart;
-    var check = false ;
-    carts.forEach(element => {
-        if(element.productCode==req.body.code){
-            element.quantity+=parseInt(req.body.quantity);
-            check = true;
-            return;
-        }
-    });
-    if(check == false){
-    carts.push(item);
-    }
-    console.log("----> cart :"+carts)
-    try {
-        await User.updateOne({ _id: id }, {
-            $set: {
-                // email: user.email,
-                // password: user.password,
-                // firstname: user.firstname,
-                // lastname: user.lastname,
-                // credential: user.credential,
-                // phone: user.phone,
-                // address: user.address,
-                // shippingAddress: user.shippingAddress,
-                cart: carts
+    if (id == undefined) {
+        var cartJson = [];
+        var cookie = req.cookies.cart;
+        if (cookie == undefined || cookie == "") {
+            cartJson.push(item);
+            cartJson = JSON.stringify(cartJson);
+        } else {
+            var oldJson = JSON.parse(cookie);
+            var check = true;
+            oldJson.forEach(element => {
+                if (element.productCode == req.body.code) {
+                    // element.quantity=parseInt(element.quantity)+parseInt(req.body.quantity);
+                    element.quantity = req.body.typechange === 0 ? parseInt(element.quantity) + parseInt(req.body.quantity) : req.body.quantity;
+                    check = false;
+                    return;
+                }
+            });
+            if (check) {
+                oldJson.push(item);
             }
-        }).exec()
+            // cartJson = cookie + "," + item;
+            cartJson = JSON.stringify(oldJson);
+        }
+        // cartJson = "["+cartJson+"]";
+        res.clearCookie('cart');
+        res.cookie('cart', cartJson, { maxAge: 900000, httpOnly: true });
         res.send("add suscess!");
-    } catch (error) {
-        console.log(error)
-        res.send(error);
-    }
-})
 
-router.get('/delete/:productCode',async function(req,res,next){
-    try {
-        await User.updateOne({_id:req.session.user},{$pull:{cart:{productCode:productCode}}},{multi:true})
-        res.redirect('/cart');
     }
-    catch(err){
-        console.log(err)
+    else {
+        id = id.user;
+        var user = await User.findOne({ _id: id });
+        var carts = user.cart;
+        var check = false;
+        carts.forEach(element => {
+            if (element.productCode == req.body.code) {
+                element.quantity += parseInt(req.body.quantity);
+                element.quantity = req.body.typechange === 0 ? element.quantity + parseInt(req.body.quantity) : parseInt(req.body.quantity);
+                check = true;
+                return;
+            }
+        });
+        if (check == false) {
+            carts.push(item);
+        }
+        // console.log("----> cart :"+carts)
+        try {
+            await User.updateOne({ _id: id }, {
+                $set: {
+                    cart: carts
+                }
+            }).exec()
+            res.send("add suscess!");
+        } catch (error) {
+            console.log(error)
+            res.send(error);
+        }
     }
 })
+router.delete("/delete/:productCode", async function (req, res) {
+    const code = req.params.productCode;
+    var id = req.session.passport;
+    if (id == undefined) {
+        var cookie = req.cookies.cart;
+        var oldJson = JSON.parse(cookie);
+        oldJson = oldJson.filter(function (item) {
+            return item.productCode !== code;
+        })
+        // cartJson = cookie + "," + item;
+        cartJson = JSON.stringify(oldJson);
+        res.clearCookie('cart');
+        res.cookie('cart', cartJson, { maxAge: 900000, httpOnly: true });
+        res.send("ok");
+    }
+    else {
+        id = id.user;
+        var user = await User.findOne({ _id: id });
+        var carts = user.cart;
+        carts = carts.filter(function (item) {
+            return item.productCode !== code;
+        })
+        // console.log("----> cart :"+carts)
+        try {
+            await User.updateOne({ _id: id }, {
+                $set: {
+                    cart: carts
+                }
+            }).exec()
+            res.send("add suscess!");
+        } catch (error) {
+            console.log(error)
+            res.send(error);
+        }
+    }
+}
+)
 module.exports = router;

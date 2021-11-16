@@ -33,7 +33,7 @@
 
         </div>
     </section>
-    <div class="group-index"">
+    <div class="group-index">
   <div class=" grid wide">
         <div class="row">
             <div class="col-xs-12" style="width:100%">
@@ -931,7 +931,12 @@
 </div>
 </div>
 <script>
-
+    const  numberWithCommas = (number)=>{
+            return number.toString().replace(
+                /\B(?=(\d{3})+(?!\d))/g,
+                ","
+            );
+        }
     $(document).ready(function () {
         //Load first product slider
         $.ajax({
@@ -940,7 +945,9 @@
             contentType: 'application-json',
             success: function (response) {
                 let products = JSON.parse(JSON.stringify(response));
+                console.log(products);
                 products.product.forEach((item) => {
+                    var price = numberWithCommas(parseInt(item.price));
                     $(".slideMauNuoc").append(`
                                 <div class="slide-product__item">
                                   <a href="/products/${item.productCode}" class="slide-product__link">
@@ -953,7 +960,7 @@
                                           </h2>
                                       </a>
                                       <p class="slide-product__price">
-                                          <span class="slide-product__price--new">${item.price}₫</span>
+                                          <span class="slide-product__price--new">`+price+`₫</span>
                                       </p>
                                   </div>
                                 </div>`)
@@ -981,7 +988,9 @@
             contentType: 'application-json',
             success: function (response) {
                 let products = JSON.parse(JSON.stringify(response));
+                console.log(products);
                 products.product.forEach((item) => {
+                    var price = numberWithCommas(parseInt(item.price));
                     $("#slideSoGiay").append(`
                                 <div class="slide-product__item">
                                   <a href="/products/${item.productCode}" class="slide-product__link">
@@ -994,7 +1003,7 @@
                                           </h2>
                                       </a>
                                       <p class="slide-product__price">
-                                          <span class="slide-product__price--new">${item.price}₫</span>
+                                          <span class="slide-product__price--new">`+price+`₫</span>
                                       </p>
                                   </div>
                                 </div>`)
@@ -1022,7 +1031,7 @@
                 let products = JSON.parse(JSON.stringify(response));
                 console.log(products);
                 products.product.forEach((item) => {
-                    console.log(item);
+                    var price = numberWithCommas(parseInt(item.price));
                     $("#slidePhuKien").append(`
                                 <div class="slide-product__item">
                                   <a href="/products/${item.productCode}" class="slide-product__link">
@@ -1035,7 +1044,7 @@
                                           </h2>
                                       </a>
                                       <p class="slide-product__price">
-                                          <span class="slide-product__price--new">${item.price}₫</span>
+                                          <span class="slide-product__price--new">`+price+`₫</span>
                                       </p>
                                   </div>
                                 </div>`)
