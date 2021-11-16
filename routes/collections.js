@@ -5,7 +5,13 @@ const Product = require('../models/product');
 const productFilter = async function (sortby, type,group, brand, specificPrice) {
     let filter = {};
     if (typeof type !=="undefined" && type !== "all") filter['type'] = type;
-    if (typeof group !== "undefined") filter['group'] = group;
+    if (typeof group !== "undefined") {
+        if(group !== "all")
+        {
+            filter['group'] = group;
+        }
+    }
+    if(type == "all" || group == "all") filter = {};
     if (typeof brand != "undefined") filter['brand'] = brand;
     if (typeof specificPrice != "undefined") filter['price'] = { price: { $lt: specificPrice.lo, $ge: specificPrice.hi } };
     console.log(filter);
@@ -103,7 +109,6 @@ router.get('/:productType', async (req, res, next) => {
     let page = (typeof req.query.page !== "undefined") ? req.query.page : 1;
     let sortby = (typeof req.query.sort_by !== "undefined") ? req.query.sort_by : "";
     let { query, count } = await productFilter(sortby,type,undefined, brand,undefined);
-    console.log(type);
     query.skip((page - 1) * pageSize).limit(pageSize).exec((err, products) => {
         if (count == 0) {
             next();
@@ -125,14 +130,16 @@ router.get('/:productType', async (req, res, next) => {
     })
 
 })
-router.get('/:productGroup', async (req, res) => {
+router.get('/:productGroup', async (req, res,next) => {
     let brand = (typeof req.query.brand !== "undefined") ? req.query.brand : undefined;
     let group = req.params.productGroup;
+    console.log(group)
     let page = (typeof req.query.page !== "undefined") ? req.query.page : 1;
     let sortby = (typeof req.query.sort_by !== "undefined") ? req.query.sort_by : "";
     let specificPrice =  req.query.specificPrice;
     let pageSize = 16;
-    let {query,count} = await productFilter(sortby,undefined,group ,brand, specificPrice)
+    let {query,count} = await productFilter(sortby,undefined,group ,brand, undefined)
+    console.log(group)
     query.skip((page - 1) * pageSize).limit(pageSize).exec((err, products) => {
             if (err) {
                 res.send('Error');
