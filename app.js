@@ -18,7 +18,6 @@ var collectionsRouter = require('./routes/collections');
 var productRouter = require('./routes/products');
 var checkoutRouter = require('./routes/checkout');
 var searchRouter = require('./routes/search');
-
 var app = express();
 var db = require('./models/db');
 // view engine setup
@@ -41,7 +40,9 @@ app.use(session({
   saveUninitialized:false
 }))
 app.use(passport.initialize());
+
 app.use(passport.session());
+
 
 //Use middlewares
 var getHeaderData = require('./middlewares/utility').getHeaderData;
