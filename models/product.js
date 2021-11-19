@@ -18,7 +18,7 @@ const ProductSchema = new mongoose.Schema({
     tags: Array,
     images: Array,
     description:String,
-    view:Number
+    view:{type:Number,default:0}
 },{timestamps:true})
 
 module.exports = mongoose.model('product',ProductSchema)

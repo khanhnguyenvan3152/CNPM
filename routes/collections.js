@@ -81,7 +81,7 @@ router.get('/vendors', async (req, res, next) => {
     let brand = (typeof req.query.brand !== "undefined") ? req.query.brand : "";
     let page = (typeof req.query.page !== "undefined") ? req.query.page : 1;
     let sortby = (typeof req.query.sort_by !== "undefined") ? req.query.sort_by : "";
-    let { query, count } = (await productFilter(sortby, type, brand));
+    let { query, count } = (await productFilter(sortby, undefined,undefined, brand));
     query
         .skip((page - 1) * pageSize)
         .collation({ locale: "vi", caseLevel: false })
