@@ -30,6 +30,8 @@ router.post('/login',passport.authenticate('local',{
     else{
         req.session.cookie.expires = false;
     }
+    console.log(req.session.passport)
+
     res.redirect('/');
 })
 

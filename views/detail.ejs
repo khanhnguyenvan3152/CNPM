@@ -113,7 +113,7 @@
                             <span class="ti-shopping-cart btn-control__cart-icon"></span>
                             <span>Thêm Vào Giỏ</span>
                         </button>
-                        <button class="btn btn-buy-now">
+                        <button class="btn btn-buy-now" id="buynow">
                             <span class="ti-check btn-control__buy-icon"></span>
                             <span>Mua Ngay</span>
                         </button>
@@ -341,6 +341,10 @@
     $('#btnAddProduct').click(function(){
         var code = '<%- product.productCode %>'
         var quantity = $('#quantity').val();
+        if(quantity><%- product.quantity %>){
+            $.notify("Opp ! Số hàng đặt vượt quá số lượng sản phẩm có sẵn !",{className: "warn"});
+            return;
+        }
         var myJson =JSON.stringify( {
             code: code,
             quantity:quantity,
@@ -357,6 +361,34 @@
                 success: function (data) {
                     $.notify("Thêm thành công !",{className: "success"});
                     console.log(data)
+                },
+                error: function (data) {
+                    alert(data)
+                    console.log(data)
+                }
+            }
+            )
+    })
+    $('#buynow').click(function(){
+        var code = '<%- product.productCode %>'
+        var quantity = $('#quantity').val();
+        if(quantity><%- product.quantity %>){
+            $.notify("Opp ! Số hàng đặt vượt quá số lượng sản phẩm có sẵn !",{className: "warn"});
+            return;
+        }
+        var myJson =JSON.stringify( {
+            code: code,
+            quantity:quantity,
+            typechange:0
+        });
+        $.ajax({
+                url: '/cart/addOrUpdate',
+                data: myJson,
+                type: "post",
+                method: 'POST',
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    window.location.replace("/checkout");
                 },
                 error: function (data) {
                     alert(data)

@@ -8,7 +8,7 @@ const checkAuthenticated = require('../middlewares/authmiddleware');
 router.get('/', async (req, res) =>{
   // console.log(req.session);
   // console.log(req.session.id);
-  // console.log(req.user);
+  console.log(req.user);
   
   // var id = req.session.passport;
   //       var customerCart =[];

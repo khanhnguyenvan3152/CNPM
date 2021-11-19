@@ -55,11 +55,17 @@ router.post('/addOrUpdate', async function (req, res) {
                 if (element.productCode == req.body.code) {
                     // element.quantity=parseInt(element.quantity)+parseInt(req.body.quantity);
                     element.quantity = req.body.typechange === 0 ? parseInt(element.quantity) + parseInt(req.body.quantity) : req.body.quantity;
+                    if(element.quantity>product.quantity) {
+                        res.status(200).send("1");
+                    }
                     check = false;
                     return;
                 }
             });
             if (check) {
+                if(req.body.quantity>product.quantity) {
+                    res.send("1");
+                }
                 oldJson.push(item);
             }
             // cartJson = cookie + "," + item;
@@ -80,11 +86,17 @@ router.post('/addOrUpdate', async function (req, res) {
             if (element.productCode == req.body.code) {
                 element.quantity += parseInt(req.body.quantity);
                 element.quantity = req.body.typechange === 0 ? element.quantity + parseInt(req.body.quantity) : parseInt(req.body.quantity);
+                if(element.quantity>product.quantity) {
+                    res.send("1");
+                }
                 check = true;
                 return;
             }
         });
         if (check == false) {
+            if(req.body.quantity>product.quantity) {
+                res.send("1");
+            }
             carts.push(item);
         }
         // console.log("----> cart :"+carts)
@@ -138,4 +150,8 @@ router.delete("/delete/:productCode", async function (req, res) {
     }
 }
 )
+// router.get('/buynow/:productcode',async function(req,res){
+//     const productcode = req.params.productcode;
+
+// })
 module.exports = router;

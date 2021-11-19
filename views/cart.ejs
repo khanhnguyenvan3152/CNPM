@@ -189,6 +189,12 @@
             method: 'POST',
             contentType: "application/json; charset=utf-8",
             success: function (data) {
+                console.log(data);
+                if(data==1){
+                    $.notify("Opp ! Số hàng đặt vượt quá số lượng sản phẩm có sẵn !",{className: "warn"});
+                    setTimeout(function(){  location.reload(); }, 1000);
+                    return ;
+                }
                 $("#oldtotal").text(numberWithCommas(newtotalPrice) + 'đ');
                 $("#totalPrice").text(numberWithCommas(newtotalPrice) + 'đ');
                 $('.changeQuantity').prop('disabled',false);
@@ -201,17 +207,29 @@
         )
     });
     $('#btnContinue').click(function () {
-        $.notify("Có cl ý tin người vkl !");
+        location.reload();
     })
  
     function removeProduct(btn) {
         var code = $(btn).parent().parent().attr('id');
+        var decrease = 0;
+        $(btn).parent().parent().find('td').each(function (index, element) {
+                            if(index==4) decrease= $(element).text().replaceAll(",","");
+                        });
+        decrease = parseInt(decrease);
+        console.log(decrease);
+        var oldtotal = $("#totalPrice").text().replaceAll(",","").replaceAll('đ','');  
+        console.log(oldtotal);
+        var newtotalPrice = parseInt(oldtotal)-decrease;
+        console.log(newtotalPrice);
         $.ajax({
             url: '/cart/delete/'+code,
             type: "delete",
             method: 'DELETE',
             contentType: "application/json; charset=utf-8",
             success: function (data) {
+                $("#oldtotal").text(numberWithCommas(newtotalPrice) + 'đ');
+                $("#totalPrice").text(numberWithCommas(newtotalPrice) + 'đ');
                 $(this).parent().parent().remove();
                 console.log(data);
             },
