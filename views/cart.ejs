@@ -127,13 +127,14 @@
                     <hr>
                 </div>
                 <div>
-                    <a href="/checkout" class="ml-auto btn hvr" id="btnPayment">Tiến hành thanh toán</a>
+                    <a href="#" onclick="checkOut(<%=customerCart.length%>)" class="ml-auto btn hvr" id="btnPayment">Tiến hành thanh toán</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <script>
+  
     const numberWithCommas = (number) => {
         return number.toString().replace(
             /\B(?=(\d{3})+(?!\d))/g,
