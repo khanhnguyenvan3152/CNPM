@@ -105,7 +105,7 @@
                     <% header.forEach(h=> {%>
                         <li class="navbar__mobile-item">
                             <a href="javascript:void(0);" style="text-transform: uppercase;" data-toggle="collapse"
-                                class="navbar__mobile-item-link">
+                                class="navbar__mobile-item-link navbar__mobile-item-link-collapse">
                                 <%= h.group.name%>
                                     <i class="ti-angle-right navbar__icon"></i>
                             </a>
@@ -125,7 +125,44 @@
 
                         </li>
                         <%})%>
-                           
+                     
+                    <% if(login){%>
+                        <li class="navbar__mobile-item">
+                            <a href="javascript:void(0);" style="text-transform: uppercase;" data-toggle="collapse"
+                            class="navbar__mobile-item-link navbar__mobile-item-link-collapse">
+                                Tài khoản
+                                <i class="ti-angle-right navbar__icon"></i>
+                            </a>
+
+                            <ul class="navbar__mobile-list-child collapse">
+                                <li class="navbar__mobile-item-child">
+                                    <a href="/user" style="text-transform: uppercase;"
+                                        class="navbar__mobile-item-link-child">
+                                        Thông tin
+                                    </a>
+                                </li>
+                                <li class="navbar__mobile-item-child">
+                                    <a href="/orders" style="text-transform: uppercase;"
+                                        class="navbar__mobile-item-link-child">
+                                        Đơn hàng
+                                    </a>
+                                </li>
+                                <li class="navbar__mobile-item-child">
+                                    <a href="/auth/logout" style="text-transform: uppercase;"
+                                        class="navbar__mobile-item-link-child">
+                                        Đăng xuất
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    <%} else {%>
+                        <li class="navbar__mobile-item">
+                            <a href="/auth/login" style="text-transform: uppercase;" 
+                            class="navbar__mobile-item-link">
+                                Đăng nhập
+                            </a>
+                        </li>
+                    <%}%>
                 </ul>
             </nav>
         </div>
@@ -140,7 +177,7 @@
         <div class="col-1">
             <div class="header__navbar-mobile-cart">
                 <a href="/cart" class="ti-shopping-cart"></a>
-                <span class="nav-mobile-cart__notice">0</span>
+                <span class="nav-mobile-cart__notice"><%=customerCart.length%></span>
             </div>
         </div>
     </div>
@@ -155,6 +192,15 @@
     })
     $('.header__navbar-search-btn').click(function(){
         search();
+    })
+
+</script>
+<script>
+    //Enable collapse for mobile's header link
+
+    $('.navbar__mobile-item-link-collapse').click(function(){
+        var $target = $(this).next();
+        $target.collapse('toggle');
     })
 
 </script>

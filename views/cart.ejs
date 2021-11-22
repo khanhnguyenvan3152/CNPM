@@ -63,7 +63,34 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <% if(cart.length > 0){%>
+                            <% cart.forEach(item =>{%>
                             <tr class="thumbnail-img-mobile">
+                                <td><img class="img-fluid" src="<%= item.image%>" alt="" /></td>
+                                <td>
+                                    <a href="" class="name-mobile">
+                                        <%=item.productname%>
+                                    </a>
+                                    <!-- <p style="margin-bottom: 5px; color:orange">202 - Peach Pink</p> -->
+                                    <div class="price">
+                                        <!-- <span class="price-old">30,000₫</span> -->
+                                        <span class="price-new"><%=numberWithCommas(item.price)%>₫</span>
+                                    </div>
+                                    <div class="buttons_added">
+                                        <input class="minus is-form" type="button" value="-">
+                                        <input aria-label="quantity" class="input-qty" max="1000" min="1" name="" type="number" value="<%=item.quantity%>">
+                                        <input class="plus is-form" type="button" value="+">
+                                    </div>
+                                </td> 
+                            </tr>
+                            <%})%>
+                            <%} else {%>
+                                <tr>
+                                    <td style="text-align: center;">Giỏ hàng của bạn không có sản phẩm nào</td>
+                                </tr>
+                            <%}%>
+
+                            <!-- <tr>
                                 <td><img class="img-fluid" src="./assets/image/KuretakeZigKhangNuoc.jpg" alt="" /></td>
                                 <td>
                                     <a href="" class="name-mobile">
@@ -80,25 +107,7 @@
                                         <input class="plus is-form" type="button" value="+">
                                     </div>
                                 </td>
-                            </tr>
-                            <tr>
-                                <td><img class="img-fluid" src="./assets/image/KuretakeZigKhangNuoc.jpg" alt="" /></td>
-                                <td>
-                                    <a href="" class="name-mobile">
-                                        Bút Cọ Gốc Nước Calligraphy Kuretake Fudebiyori 48 Màu - Bán Lẻ
-                                    </a>
-                                    <p style="margin-bottom: 5px; color:orange">202 - Peach Pink</p>
-                                    <div class="price">
-                                        <span class="price-old">30,000₫</span>
-                                        <span class="price-new">28,000₫</span>
-                                    </div>
-                                    <div class="buttons_added">
-                                        <input class="minus is-form" type="button" value="-">
-                                        <input aria-label="quantity" class="input-qty" max="1000" min="1" name="" type="number" value="1">
-                                        <input class="plus is-form" type="button" value="+">
-                                    </div>
-                                </td>
-                            </tr>
+                            </tr> -->
                         </tbody>
                     </table>
                 </div>

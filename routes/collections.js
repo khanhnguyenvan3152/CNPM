@@ -13,7 +13,24 @@ const productFilter = async function (sortby, type,group, brand, specificPrice) 
     }
     if(type == "all" || group == "all") filter = {};
     if (typeof brand != "undefined") filter['brand'] = brand;
-    if (typeof specificPrice != "undefined") filter['price'] = { price: { $lt: specificPrice.lo, $ge: specificPrice.hi } };
+    if (typeof specificPrice != "undefined"){
+        const slices = specificPrice.split('-')
+        console.log(slices);
+        if(slices.length==1)
+        {
+            if(slices[0].length==6){
+                filter['price'] = {$lt:slices[0]}
+            }
+            else
+            {
+                filter['price'] = {$gt:slices[0]}
+            }
+        }
+        else{
+            filter['price'] =  { $lt: parseInt(slices[1]), $gt: Number(slices[0]) } ;
+        }
+        
+    }
     console.log(filter);
     let query = Product.find(filter);
     let count = await Product.countDocuments(filter);
@@ -54,7 +71,8 @@ router.get('/all', async (req, res) => {
     let brand = (typeof req.query.brand !== "undefined") ? req.query.brand : "";
     let page = (typeof req.query.page !== "undefined") ? req.query.page : 1;
     let sortby = (typeof req.query.sort_by !== "undefined") ? req.query.sort_by : "";
-    let { query, count } = (await productFilter(sortby, type, brand));
+    let specificPrice =  (typeof req.query.specificPrice !== "undefined")?req.query.specificPrice: undefined;
+    let { query, count } = (await productFilter(sortby, type, undefined,undefined,specificPrice));
     query
         .skip((page - 1) * pageSize)
         .limit(pageSize)
@@ -108,6 +126,8 @@ router.get('/:productType', async (req, res, next) => {
     let type = req.params.productType;
     let page = (typeof req.query.page !== "undefined") ? req.query.page : 1;
     let sortby = (typeof req.query.sort_by !== "undefined") ? req.query.sort_by : "";
+    let specificPrice =  (typeof req.query.specificPrice !== "undefined")?req.query.specificPrice: undefined;
+    console.log(specificPrice);
     let { query, count } = await productFilter(sortby,type,undefined, brand,undefined);
     query.skip((page - 1) * pageSize).limit(pageSize).exec((err, products) => {
         if (count == 0) {
@@ -124,6 +144,7 @@ router.get('/:productType', async (req, res, next) => {
                 productList: products,
                 current: page,
                 sortby: sortby,
+                specificPrice,
                 pages: Math.ceil(count / pageSize)
             });
         }
@@ -136,9 +157,9 @@ router.get('/:productGroup', async (req, res,next) => {
     console.log(group)
     let page = (typeof req.query.page !== "undefined") ? req.query.page : 1;
     let sortby = (typeof req.query.sort_by !== "undefined") ? req.query.sort_by : "";
-    let specificPrice =  req.query.specificPrice;
+    let specificPrice =  (typeof req.query.specificPrice !== "undefined") ?req.query.specificPrice: undefined;
     let pageSize = 16;
-    let {query,count} = await productFilter(sortby,undefined,group ,brand, undefined)
+    let {query,count} = await productFilter(sortby,undefined,group ,brand, specificPrice)
     console.log(group)
     query.skip((page - 1) * pageSize).limit(pageSize).exec((err, products) => {
             if (err) {
@@ -151,6 +172,7 @@ router.get('/:productGroup', async (req, res,next) => {
                     productList: products,
                     current: page,
                     sortby:sortby,
+                    specificPrice,
                     pages: Math.ceil(count / page)
                 });
             }
