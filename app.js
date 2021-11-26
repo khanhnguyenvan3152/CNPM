@@ -11,7 +11,7 @@ var flash = require('express-flash');
 var session = require('express-session');
 var passport = require('passport');
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var userRouter = require('./routes/user');
 var authRouter = require('./routes/auth');
 var cartRouter = require('./routes/cart')
 var collectionsRouter = require('./routes/collections');
@@ -49,6 +49,7 @@ var getHeaderData = require('./middlewares/utility').getHeaderData;
 var getCategories = require('./middlewares/utility').getCategories;
 var getBrands = require('./middlewares/utility').getBrands;
 var getCart = require('./middlewares/utility').getCartDisplay;
+var authMiddleware = require('./middlewares/auth')
 //Check if authenticated
 app.use(function(req,res,next){
   res.locals.login = req.isAuthenticated();
@@ -59,7 +60,7 @@ app.use(getHeaderData);
 app.use(getCart);
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/user',authMiddleware.enforceAuthentication ,userRouter);
 app.use('/auth',authRouter);
 app.use('/cart',cartRouter);
 app.use('/collections',getCategories,getBrands,collectionsRouter);

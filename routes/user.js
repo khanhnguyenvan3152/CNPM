@@ -7,7 +7,8 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/info', function(req, res, next) {
-  res.send('Your info');
+  let user = req.user;
+  res.render('profile',{user:user})
 });
 router.get('/orders',function(req,res){
   res.render('order')

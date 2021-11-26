@@ -259,32 +259,31 @@
                 <ul class="category-price__list category__list">
                     <li class="category-price__item category__item">
                         <label for="cheapest">
-                            <input type="radio" name="price-filter" value="100000" class="category-price__input"
-                                id="cheapest">
+                            <input type="radio" name="price_filter"  value="100000" class="category-price__input"  id="cheapest">
                             <span>Nhỏ hơn 100,000₫</span>
                         </label>
                     </li>
                     <li class="category-price__item category__item">
                         <label for="sizeS">
-                            <input type="radio" name="price-filter" value="100000-500000" class="category-price__input" id="sizeS">
+                            <input type="radio" name="price_filter" value="100000-500000" class="category-price__input"  id="sizeS">
                             <span>Từ 100,000₫ - 500,000₫</span>
                         </label>
                     </li>
                     <li class="category-price__item category__item">
                         <label for="sizeM">
-                            <input type="radio" name="price-filter" value="500000-1000000" class="category-price__input" id="sizeM">
+                            <input type="radio" name="price_filter" value="500000-1000000" class="category-price__input"  id="sizeM">
                             <span>Từ 500,000₫ - 1,000,000₫</span>
                         </label>
                     </li>
                     <li class="category-price__item category__item">
                         <label for="sizeL">
-                            <input type="radio" name="price-filter" value="1000000-2000000" class="category-price__input" id="sizeL">
+                            <input type="radio" name="price_filter" value="1000000-2000000" class="category-price__input"  id="sizeL">
                             <span>Từ 1,000,000₫ - 2,000,000₫</span>
                         </label>
                     </li>
                     <li class="category-price__item category__item">
                         <label for="most">
-                            <input type="radio" name="price-filter" value="2000000" class="category-price__input" id="most">
+                            <input type="radio" name="price_filter" value="2000000" class="category-price__input"  id="most">
                             <span>Lớn hơn 2,000,000₫</span>
                         </label>
                     </li>
@@ -483,41 +482,44 @@
                                 Tên: A-Z
                             </span>
                             <i class="ti-angle-down select-input__icon"></i>
+                            <% let selectlink = `/collections/${type}?`%>
+                            <% if(typeof price_filter!="undefined") selectlink = selectlink+ `price_filter=${price_filter}&`%>
+                            <%selectlink = selectlink + `sort_by=`%>
                             <ul class="select-input__list">
                                 <li class="select-input__item">
-                                    <a href="/collections/<%=type%>?sort_by=popular" class="select-input__link">
+                                    <a href="<%=selectlink%>popular" class="select-input__link">
                                         Sản phẩm nổi bật
                                     </a>
                                 </li>
                                 <li class="select-input__item">
-                                    <a href="/collections/<%=type%>?sort_by=price-ascending" class="select-input__link">
+                                    <a href="<%=selectlink%>price-ascending" class="select-input__link">
                                         Giá: Tăng dần
                                     </a>
                                 </li>
                                 <li class="select-input__item">
-                                    <a href="/collections/<%=type%>?sort_by=price-descending"
+                                    <a href="<%=selectlink%>price-descending"
                                         class="select-input__link">
                                         Giá: Giảm dần
                                     </a>
                                 </li>
                                 <li class="select-input__item">
-                                    <a href="/collections/<%=type%>?sort_by=title-ascending" class="select-input__link">
+                                    <a href="<%=selectlink%>title-ascending" class="select-input__link">
                                         Tên: A-Z
                                     </a>
                                 </li>
                                 <li class="select-input__item">
-                                    <a href="/collections/<%=type%>?sort_by=title-descending"
+                                    <a href="<%=selectlink%>title-descending"
                                         class="select-input__link">
                                         Tên: Z-A
                                     </a>
                                 </li>
                                 <li class="select-input__item">
-                                    <a href="/collections/<%=type%>?sort_by=oldest" class="select-input__link">
+                                    <a href="<%=selectlink%>oldest" class="select-input__link">
                                         Cũ nhất
                                     </a>
                                 </li>
                                 <li class="select-input__item">
-                                    <a href="/collections/<%=type%>?sort_by=lastest" class="select-input__link">
+                                    <a href="<%=selectlink%>lastest" class="select-input__link">
                                         Mới nhất
                                     </a>
                                 </li>
@@ -564,8 +566,8 @@
                     <nav>
                         <% if(pages>0) {%>
                             <% let link = `/collections/${type}?`%>
-                            <% if(sortby!="") link = link + `sortby=%{sortby}&`%>
-                            <% if(typeof specificPrice !== "undefined") link = link + `specificPrice=${specificPrice}&`;%>
+                            <% if(sortby!="") link = link + `sortby=${sortby}&`%>
+                            <% if(typeof price_filter !== "undefined") link = link + `price_filter=${price_filter}&`;%>
                             <% link = link +`page=`;%>
                             
                                 <ul class="pagination home-product__pagination flex-wrap justify-content-center">
@@ -640,13 +642,20 @@
 <script>
     //Enable collapse for category 
     let curPage = parseInt("<%=current%>")
-    
+    let filterPrice = '<%=price_filter%>'
     $('.category__item-link').click(function () {
         var $target = $(this).next();
         $target.collapse('toggle');
     })
-    $("input[name='price-filter']").on('change',function(){
+    $("input[name='price_filter']").on('change',function(){
         let priceFilter = $(this).prop("value");
-        window.location= `/collections/<%=type%>?specificPrice=${priceFilter}`
+        window.location= `/collections/<%=type%>?price_filter=${priceFilter}`
     })
+    $("input[name='price_filter']").each(function(){
+        if(this.value==filterPrice){
+            console.log(this.value)
+            $(this).prop('checked',true)
+        }
+    })
+    console.log($("input[name='price_filter']"))
 </script>
