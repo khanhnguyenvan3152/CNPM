@@ -4,25 +4,42 @@
             <h3>Lịch sử đơn hàng</h3>
         </div>
         <div class="order-list row">
-            <table>
-                <thead>
-                    <tr>
-                        <th colspan="2">
+            <table class="table order-table">
+                <thead class="order-table_head">
+                    <tr class="order-table__row">
+                        <th class="order-table__row-title">
                             Mã đơn hàng
                         </th>
-                        <th>
+                        <th class="order-table__row-title">
                             Ngày đặt
                         </th>
-                        <th>
+                        <th class="order-table__row-title">
                             Trạng thái
                         </th>
-                        <th>
+                        <th class="order-table__row-title">
                             Tổng tiền
                         </th>
                     </tr>
                 </thead>
-                <tbody>
-                    
+                <tbody class="order-table_body">
+                   <% if(orders.length >0){%>
+                    <%orders.forEach(order=>{%>
+                        <tr>
+                            <td>
+                                <%= order._id%>
+                            </td>
+                            <td>
+                                <%=order.createAt%>
+                            </td>
+                            <td>
+                                <%=order.status%>
+                            </td>
+                            <td>
+                                <%=order.totalprice%>
+                            </td>
+                        </tr>
+                    <%})%>
+                    <%}%>
                 </tbody>
             </table>
         </div>
