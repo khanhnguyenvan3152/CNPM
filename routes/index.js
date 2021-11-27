@@ -34,7 +34,6 @@ router.get('/', async (req, res) =>{
 router.get('/hdrender', async (req,res)=>{
     try{
       let header = await Header.find().exec();
-      console.log(header);
       res.render("partials/header",{layout:false,header:header})
     }
     catch(err){

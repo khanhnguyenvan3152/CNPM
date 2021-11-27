@@ -16,7 +16,7 @@
                     <div class="title-left">
                         <h3>Thông tin tài khoản</h3>
                     </div>
-                    <form class="needs-validation" novalidate="">
+                    <form class="needs-validation" method="POST" onsubmit="return validateInformationForm()">
                         <div class="row mb-3">
                             <div class="col-lg-12 col-xs-12">
                                 <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Họ" value="<%=user.lastname%>" required="">
@@ -31,33 +31,46 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-lg-8 col-xs-12">
-                                <input type="email" class="form-control" id="email" name="email" value="<%=user.email%>" placeholder="Email">
+                                <input type="email" class="form-control" id="email" name="email" value="<%=user.email%>" readonly placeholder="Email">
                                 <div class="invalid-feedback"> Vui lòng nhập email </div>
                             </div>
                             <div class="col-lg-4 col-xs-12 smart-phone">
-                                <input type="tel" class="form-control" id="phone" name="phone" value="<%=user.phone%>" placeholder="Số Điện Thoại">
+                                <input type="tel" class="form-control" id="phone" name="phone" value="<%=user.phone%>" required placeholder="Số Điện Thoại">
                                 <div class="invalid-feedback"> Vui lòng nhập số điện thoại </div>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-lg-12 col-xs-12">
-                                <input type="text" class="form-control" id="address" name="address" placeholder="Địa Chỉ" required="">
+                                <input type="text" class="form-control" id="address" name="street" value="<%=user.address.street%>" placeholder="Địa Chỉ(Số nhà, tên đường)" required>
                                 <div class="invalid-feedback"> Vui lòng nhập địa chỉ của bạn </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3 col-xs-12">
-                                <select name="ls_provinces" id="provinces" required="" class="provinces__name form-control">
-                                    <option value="9000">Tỉnh / Thành phố</option>
+                                <select id="provinces" required class="provinces__name form-control">
+                                    <option value="<%=user.city!=''?9000:user.city%>">Tỉnh / Thành phố</option>
                                 </select>
+                                <input id="txtCity" style="display: none;" type="text" name="city" required value="">
                             </div>
                             <div class="col-md-6 mb-3 col-xs-12">
-                                <select name="ls_district" id="district" required="" class="districts__name form-control">
-                                    <option value="9000">Quận / Huyện</option>
+                                <select id="district" required class="districts__name form-control">
+                                    <option value="<%=user.city!=''?9000:user.city%>">Quận / Huyện</option>
                                 </select>
+                                <input id="txtDistrict" style="display: none;"  type="text" name="district" required value="">
                             </div>
                         </div>
-                        <button class="btn btn-primary" type="submit">Lưu thông tin</button>
+                        <div class="row">
+                            <div class="col-md-6 mb-3 col-xs-12">
+                                <% if(typeof msg!=="undefined"){%>
+                                    <% if(msg == "success"){%>
+                                        <p class="text-success">Cập nhật thành công</p>
+                                    <%}else {%>
+                                        <p class="text-danger">Đã có lỗi xảy ra</p>
+                                    <%}%>
+                                <%}%>
+                            </div>
+                        </div>
+                        <button onsubmit="" class="btn btn-primary" type="submit">Lưu thông tin</button>
                     </form>
                 </div>
             </div>
@@ -67,6 +80,7 @@
     </div>
 </div>
 <script>
+
     var provinces = [
     {
         name  : "An Giang",
@@ -358,7 +372,11 @@
                 }
             }
         }
+        $('#txtCity').prop('value',provinces[$('#provinces').prop('value')].name)
     }
     var provinceName=document.querySelector('.provinces__name');
     provinceName.addEventListener('click', initDropDownProvince);
+    $('#district').on('change',function(){
+        $('#txtDistrict').prop('value',provinces[$('#provinces').prop('value')].cities[$('#district').prop('value')])
+    })
 </script>
