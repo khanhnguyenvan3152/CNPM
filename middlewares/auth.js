@@ -2,9 +2,9 @@ module.exports = {
     enforceAuthentication: function (req,res,next){
         if(req.isAuthenticated()==false)
         {
-           return next()
+           res.redirect('/auth/login')
         }
-        res.redirect('/')
+        next();
     },
     forwardAuthentication: function (req,res,next){
         if(req.isAuthenticated())

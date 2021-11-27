@@ -33,7 +33,7 @@
                                 <label class="input-group__label">
                                     <i class="input-group__icon ti-email"></i>
                                 </label>
-                                <input type="email" id="txtEmail" name="email" required placeholder="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" class="form-control">
+                                <input type="email" id="txtEmail" name="email" required placeholder="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" title="Email không đúng định dạng" class="form-control">
                             </div>
                             <div class="input-group input-account">
                                 <label class="input-group__label">
@@ -58,7 +58,7 @@
                                     ĐĂNG KÝ
                                 </button>
                             </div>
-                            <div id="labelResult">
+                            <div id="labelResult" class="text-danger">
 
                             </div>
                             <% if(typeof message !== "undefined") {%>
@@ -86,7 +86,22 @@
     </div>
 </body>
 <script>
+    function checkEmail(){
+        $('#labelResult').removeClass('text-danger').removeClass('text-sucess');
+        let email = $('#txtEmail').val().trim();
+        let regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+        let result = regex.test(email);
+        if(result == true){
+            return true;
+        }
+        else{
+            $('#labelResult').addClass('text-danger');
+            $('#labelResult').html('Email không đúng định dạng. Ví dụ: abc@gmail.com')
+            return false;
+        }
+    }
     $("#btnSignup").click(function(){
+    
     let email = $("#txtEmail").val().trim();
     let password = $("#txtPassword").val().trim();
     let firstname = $("#txtFirstName").val().trim();
@@ -98,7 +113,7 @@
         lastname: lastname
     }
     let mydata = JSON.stringify(info);
-    if(email != "" && password !="" && firstname != "" && lastname!=""){
+    if(email != "" && password !="" && firstname != "" && lastname!="" && checkEmail()==true){
         $.ajax({
             url: '/auth/register',
             data: mydata,

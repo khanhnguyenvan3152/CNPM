@@ -108,6 +108,9 @@
     font-size: 20px;
 }
 
+.smart-phone{
+    padding-left: 0;
+}
 
 .shipment{
     display: flex;

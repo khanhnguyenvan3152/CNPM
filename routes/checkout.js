@@ -28,14 +28,15 @@ router.post('/add', async function (req, res) {
       totalprice: req.body.totalprice,
       note: req.body.note,
       products: cart,
-      user: req.body.user,
+      customer: id!=undefined?id:null,
       creator: id!=undefined?email:'anonymous',
       addressShip: req.body.addressShip,
       typePay: req.body.typePay,
       status: 1
     });
      try {
-        outbill.save();
+        let order = await outbill.save();
+        console.log(order)
         if(id!=undefined){
                 try {
                     await User.updateOne({ _id: id }, {
@@ -43,6 +44,9 @@ router.post('/add', async function (req, res) {
                             cart: []
                         }
                     }).exec()
+                    let user = await User.findById(req.user._id).exec();
+                    user.orders.push(order._id);
+                    await user.save();
                     res.send("add suscess!");
                 } catch (error) {
                     console.log(error)
@@ -54,7 +58,7 @@ router.post('/add', async function (req, res) {
                 res.send("add suscess!");
               }
      } catch (error) {
-        console.log(err);
+        console.log(error);
           res.send('upload Failed !')
      }
   })

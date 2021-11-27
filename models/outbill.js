@@ -11,17 +11,11 @@ const OutbillSchema = new mongoose.Schema({
         color: String,
         quantity: Number,
     }],
-    user: {
-        name:String,
-        phone:String,
-        email:String,
-        province:String,
-        district: String
-    },
+    customer: {type:mongoose.Schema.Types.ObjectId,ref:'user'},
     creator: String,
     addressShip: String,
     typePay:Number, 
     status: Number // hủy bỏ - đã tiếp nhận - đang chuẩn bị hàng - đang chuyển hàng - hoàn thành 
-})
-
+}
+,{timestamps:true})
 module.exports = mongoose.model('outbill',OutbillSchema)

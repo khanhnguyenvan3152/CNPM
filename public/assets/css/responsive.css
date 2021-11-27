@@ -146,6 +146,10 @@
         margin-left: 2px;
         cursor: pointer;
     }
+
+    .col-xs-12{
+        width: 100%;
+    }
 }
 
 /*Tablet & Mobile*/
@@ -178,6 +182,10 @@
         margin: 7px 0 0 15px;
     }
 
+    .bread-crumb-mobile{
+        display: none;
+    }
+
     .product-filter__label{
         display: none;
     }
@@ -188,5 +196,71 @@
 
     .pagination-item{
         margin: 0;
+    }
+
+    .form-textarea{
+        padding-top: 10px;
+    }
+
+    .contact-right__address span{
+        line-height: 25px;
+    }
+
+    .cart-title{
+        font-size: 20px;
+    }
+
+    .table-main{
+        display: none;
+    }
+
+    .order-box h3{
+        font-size: 20px;
+        margin-top: 10px;
+    }
+
+    .table-mobile{
+        display: block;
+    }
+
+    .product-detail__hidden{
+        display: none;
+    }
+
+    .btn-control__cart-icon{
+        height: 39px;
+    }
+
+    .btn-control__buy-icon{
+        height: 39px;
+    }
+
+    .banner-index{
+        margin-left: 0;
+    }
+
+    .smart-phone{
+        padding-left: 15px;
+        margin-top: 1rem;
+    }
+
+    .bb{
+        margin-top: 2.5rem;
+    }
+
+    .title-left h3{
+        font-size: 18px;
+    }
+
+    .gr-total h5{
+        font-size: 16px;
+    }
+
+    #totalprice{
+        font-size: 16px;
+    }
+
+    .mx-2{
+        margin-right: 0 !important;
     }
 }
