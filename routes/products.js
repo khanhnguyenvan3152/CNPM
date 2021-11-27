@@ -8,7 +8,6 @@ router.get('/:productCode',getSimilarProduct,async (req,res,next)=>{
     try{
         let product = await Product.findOne({productCode:productCode}).exec();
         let view = product.view + 1;
-        console.log(view)
         product.view = view;
         await product.save();
         res.render('detail',{product:product})
@@ -22,7 +21,6 @@ router.get('/:productCode',getSimilarProduct,async (req,res,next)=>{
 router.get('/getAllProductByType/:type',async (req,res)=>{
     let type = req.params.type;
     let size = req.query.size;
-    console.log(size);
     try{
         let product;
         if(size>0)
@@ -43,7 +41,6 @@ router.get('/getAllProductByType/:type',async (req,res)=>{
 router.get('/getAllProductByGroup/:group',async (req,res)=>{
     let group = req.params.group;
     let size = req.query.size;
-    console.log(size);
     try{
         let product;
         if(size>0)

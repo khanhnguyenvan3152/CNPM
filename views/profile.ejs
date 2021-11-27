@@ -1,188 +1,86 @@
-<%    const  numberWithCommas = (number)=>{
-    return number.toString().replace(
-        /\B(?=(\d{3})+(?!\d))/g,
-        ","
-    );
-}
-var total=0;
-var totalprice = 0;
-customerCart.forEach(element => {
-    total+= parseInt(element.quantity);
-    totalprice+= parseInt(element.quantity)*parseInt(element.price);
-});
-%> 
+<style>
+
+    .profile-nav{
+        padding-right: 0px;
+        list-style: none;
+    }
+    .profile-right{
+        padding-left:70%;
+    }
+</style>
 <div class="cart-box-main">
     <div class="container">
         <div class="row">
-            <div class="col-sm-7 col-lg-7 col-sm-12 mb-3">
+            <div class="col-sm-12 col-lg-7 mb-3">
                 <div class="checkout-address">
                     <div class="title-left">
-                        <h3>Điền thông tin nhận hàng</h3>
+                        <h3>Thông tin tài khoản</h3>
                     </div>
-                    <form class="needs-validation" novalidate>
+                    <form class="needs-validation" method="POST" onsubmit="return validateInformationForm()">
                         <div class="row mb-3">
-                            <div class="col-lg-12 col-sm-12 col-xs-12">
-                                <input type="text" class="form-control" id="shipName" name="shipName" placeholder="Họ Và Tên Người Nhận" value="" required>
-                                <div class="invalid-feedback" > Bạn phải nhập họ và tên </div>
+                            <div class="col-lg-12 col-xs-12">
+                                <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Họ" value="<%=user.lastname%>" required="">
+                                <div class="invalid-feedback"> Bạn phải nhập họ và tên </div>
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <div class="col-lg-8 col-xs-12 col-sm-12">
-                                <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                            <div class="col-lg-12 col-xs-12">
+                                <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Tên" value="<%=user.firstname%>" required="">
+                                <div class="invalid-feedback"> Bạn phải nhập họ và tên </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-lg-8 col-xs-12">
+                                <input type="email" class="form-control" id="email" name="email" value="<%=user.email%>" readonly placeholder="Email">
                                 <div class="invalid-feedback"> Vui lòng nhập email </div>
                             </div>
-                            <div class="col-lg-4 col-xs-12 col-sm-12 smart-phone">
-                                <input type="tel" class="form-control" id="phone" name="phone" placeholder="Số Điện Thoại">
+                            <div class="col-lg-4 col-xs-12 smart-phone">
+                                <input type="tel" class="form-control" id="phone" name="phone" value="<%=user.phone%>" required placeholder="Số Điện Thoại">
                                 <div class="invalid-feedback"> Vui lòng nhập số điện thoại </div>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-lg-12 col-xs-12">
-                                <input type="text" class="form-control" id="address" name="address" placeholder="Địa Chỉ" required>
-                                <div class="invalid-feedback"> Vui lòng nhập địa chỉ nhận hàng </div>
+                                <input type="text" class="form-control" id="address" name="street" value="<%=user.address.street%>" placeholder="Địa Chỉ(Số nhà, tên đường)" required>
+                                <div class="invalid-feedback"> Vui lòng nhập địa chỉ của bạn </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3 col-xs-12">
-                                <select name="ls_provinces" id="provinces" required="" class="provinces__name form-control">
-                                    <option value="9000">Tỉnh / Thành phố</option>
+                                <select id="provinces" required class="provinces__name form-control">
+                                    <option value="<%=user.city!=''?9000:user.city%>">Tỉnh / Thành phố</option>
                                 </select>
+                                <input id="txtCity" style="display: none;" type="text" name="city" required value="">
                             </div>
                             <div class="col-md-6 mb-3 col-xs-12">
-                                <select name="ls_district" id="district" required="" class="districts__name form-control">
-                                    <option value="9000">Quận / Huyện</option>
+                                <select id="district" required class="districts__name form-control">
+                                    <option value="<%=user.city!=''?9000:user.city%>">Quận / Huyện</option>
                                 </select>
+                                <input id="txtDistrict" style="display: none;"  type="text" name="district" required value="">
                             </div>
                         </div>
-                        <div class="row mb-3">
-                            <div class="col-lg-12 col-xs-12">
-                                <div class="title-left">
-                                    <h3>Phương thức vận chuyển</h3>
-                                </div>
-                                <div class="shipment form-control">
-                                    <div class="shipment__input">
-                                        <input type="radio" class="shipment__radio" id="shipment" checked>
-                                        <label for="shipment" class="shipment__title">Giao hàng tận nơi</label>
-                                    </div>
-                                    <span class="shipment__fee">35,000₫</span>
-                                </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3 col-xs-12">
+                                <% if(typeof msg!=="undefined"){%>
+                                    <% if(msg == "success"){%>
+                                        <p class="text-success">Cập nhật thành công</p>
+                                    <%}else {%>
+                                        <p class="text-danger">Đã có lỗi xảy ra</p>
+                                    <%}%>
+                                <%}%>
                             </div>
                         </div>
-                        <div class="row mb-3 bb">
-                            <div class="col-lg-12 col-xs-12">
-                                <div class="title-left">
-                                    <h3>Phương thức thanh toán</h3>
-                                </div>
-                                <div class="pay-product form-control">
-                                    <label class="pay-border shipment__input">
-                                        <div class="pay-wrapper">
-                                            <input type="radio" class="shipment__radio" id="pay" name="payment" checked>
-                                            <img src="https://hstatic.net/0/0/global/design/seller/image/payment/cod.svg" alt="">
-                                            <label for="pay" class="shipment__title">Thanh toán khi giao hàng (COD)</label>
-                                        </div>
-                                    </label>
-                                    <label class="pay-border shipment__input" id="payment__live">
-                                        <div class="pay-wrapper pay-content">
-                                            <span>
-                                                Sau khi đặt thành công khách hàng xác nhận đơn bằng tin nhắn < MÃ ĐƠN HÀNG > gửi 0909738828 để chúng tôi kiểm tra chuẩn bị đơn hàng và giao cho nhà vận chuyển
-                                                Da Đen chỉ nhận giao đơn từ 100k ̣̣̣̣(chưa tính phí ship)
-                                                VD: #101899 Gửi 0909738828
-                                                Đơn hàng HCM: 1->2 ngày giao hàng xác nhận đơn trước 15h00 hàng ngày
-                                                Đơn hàng các tỉnh: 3->5 ngày giao hàng xác nhận đơn trước 15h00 hàng ngày
-                                                Xin chân thành cảm ơn đã tin tưởng và ủng hộ www.hoacudaden.com suốt thời gian qua.
-                                            </span>
-                                        </div>
-                                    </label>
-                                    <label class="pay-border shipment__input">
-                                        <div class="pay-wrapper">
-                                            <input type="radio" class="shipment__radio" id="bank" name="payment">
-                                            <img src="https://hstatic.net/0/0/global/design/seller/image/payment/other.svg" alt="">
-                                            <label for="bank" class="shipment__title">Chuyển khoản qua ngân hàng</label>
-                                        </div>
-                                    </label>
-                                    <label class="pay-border shipment__input pay-hidden" id="payment__online">
-                                        <div class="pay-wrapper pay-content pay-content__center">
-                                                * Ngân hàng TPCP Ngoại thương Việt Nam<br>
-                                                Vietcombank - Chi nhánh Ngọc Khánh 0222002333663<br>
-                                                Chủ tài khoản: Triệu Lệ Dĩnh<br>
-                                                * Sau khi đặt thành công đơn hàng khách hàng xác nhận giao đơn bằng tin nhắn<br> 
-                                                < MÃ ĐƠN HÀNG > < SỐ TIÊN CHUYỂN KHOẢN > gửi 0909738828<br>
-                                                Vd: #101899 500.000đ Gửi 0912345678
-                                                Xin chân thành cảm ơn quý khách.<br>
-                                                * Chuyển khoản qua ngân hàng<br>
-                                                Thông tin nội dung chuyển khoản :
-                                                < Tên > < SĐT > < Mã Đơn Hàng >
-                                            </span>
-                                        </div>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
+                        <button onsubmit="" class="btn btn-primary" type="submit">Lưu thông tin</button>
                     </form>
                 </div>
             </div>
-            <div class="col-sm-5 col-lg-5 col-sm-12 mb-3">
-                <div class="row">
-                    <div class="col-md-12 col-lg-12">
-                        <div class="odr-box">
-                            <div class="title-left">
-                                <h3>Thông tin giỏ hàng</h3>
-                            </div>
-                            <div class="rounded p-2 bg-light">
-                                   <% customerCart.forEach(element => { %>
-                                        <div class="media mb-2 border-bottom information-product">
-                                        <div class="product__image">
-                                            <img src="<%= element.image %>" alt="">
-                                        </div>
-                                        <div class="media-body">
-                                            <a href="/products/<%= element.productCode %>"><%= element.productname %></a>
-                                            <div class="small text-muted">
-                                            <!-- <span>202 - Peach Pink</span>
-                                            <span class="mx-2">|</span> -->
-                                            <span class="mx-2">Giá: <%= numberWithCommas(element.price) %>₫</span>
-                                            <span class="mx-2">|</span> Số lượng: <%= element.quantity %> <span class="mx-2">|</span> Thành tiền: <%= numberWithCommas(parseInt(element.quantity)*parseInt(element.price)) %>₫
-                                        </div>
-                                    </div>
-                                </div>
-                                 <%  }); %> 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-lg-12 col-sm-12">
-                        <div class="order-box">
-                            <hr class="my-1">
-                            <div class="d-flex payment__price">
-                                <h4>Tạm tính</h4>
-                                <div class="ml-auto font-weight-bold"><%= numberWithCommas(totalprice) %>₫ </div>
-                            </div>
-                            <div class="d-flex payment__price">
-                                <h4>Giảm giá</h4>
-                                <div class="ml-auto font-weight-bold"> 0₫ </div>
-                            </div>
-                            <div class="d-flex payment__price">
-                                <h4>Phí vận chuyển</h4>
-                                <div class="ml-auto font-weight-bold">35,000₫ </div>
-                            </div>
-                            <hr>
-                            <div class="d-flex gr-total payment__price">
-                                <h5>Thành tiền</h5>
-                                <div class="ml-auto h5"><input style="text-align:right" disabled type="text" class="form-control" id="totalprice" name="totalprice" placeholder="" value="<%= numberWithCommas(totalprice+parseInt(35000)) %>₫"></div>
-                            </div>
-                            <hr>
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-lg-12 col-sm-12">
-                        <div class="col-lg-12 d-flex shopping-box col-xs-12"> 
-                            <button type="submit" id="order" class="btn-pay btn btn--primary">ĐẶT HÀNG</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+           
         </div>
-      
+    
     </div>
 </div>
 <script>
+
     var provinces = [
     {
         name  : "An Giang",
@@ -474,75 +372,11 @@ customerCart.forEach(element => {
                 }
             }
         }
+        $('#txtCity').prop('value',provinces[$('#provinces').prop('value')].name)
     }
     var provinceName=document.querySelector('.provinces__name');
     provinceName.addEventListener('click', initDropDownProvince);
-
-    var pay_live=document.getElementById('payment__live');
-    var pay_online=document.getElementById('payment__online');
-    var pay=document.getElementById('pay');
-    var bank=document.getElementById('bank');
-
-    function Live(){
-        pay_live.classList.remove('pay-hidden');
-        pay_online.classList.add('pay-hidden');
-    }
-
-    function Online(){
-        pay_online.classList.remove('pay-hidden');
-        pay_live.classList.add('pay-hidden');
-    }
-
-    pay.addEventListener('click', Live);
-    bank.addEventListener('click', Online);
-    
-        $('#order').click(function(){
-        var username = $('#shipName').val();
-        var email = $('#email').val();
-        var phone = $('#phone').val();
-        var address = $('#address').val();
-        var indexprovince = $('#provinces').val();
-        var province= provinces[indexprovince];
-
-        var indexdistrict = $('#district').val();
-        var district = province.cities[indexdistrict];
-
-        var totalprice= $('#totalprice').val().replaceAll(",","").replace("₫","");
-        var user = {
-            name:username,
-            phone:phone,
-            email:email,
-            province:province.name,
-            district: district
-        }
-        var typepay = $("#pay").is(":checked") ? 0 : 1;
-        
-
-        var data = {
-            totalprice: totalprice,
-            note: "",
-            user: user,
-            addressShip: address,
-            typePay: typepay,
-            status: 1 // hủy bỏ - đã tiếp nhận - đang chuẩn bị hàng - đang chuyển hàng - hoàn thành 
-        }
-        var json = JSON.stringify(data);
-        console.log(json);
-        $.ajax({
-            url: '/checkout/add',
-            data: json,
-            type: "post",
-            method: 'POST',
-            contentType: "application/json; charset=utf-8",
-            success: function (data) {
-                window.location.replace("/");
-            },
-            error: function (data) {
-                console.log(data)
-                $.notify(data, {className: "error"})
-            }
-        }
-        )
-
+    $('#district').on('change',function(){
+        $('#txtDistrict').prop('value',provinces[$('#provinces').prop('value')].cities[$('#district').prop('value')])
     })
 </script>

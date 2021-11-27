@@ -28,7 +28,8 @@ const UserSchema = new mongoose.Schema(
             quantity: {type:Number,default:""},
             price: {type:Number,default:""},
             image:{type:String,default:""}
-        }]
+        }],
+        orders:[{type:mongoose.Schema.Types.ObjectId,ref:'outbill'}]
     }, 
     {timestamps:true}
 )

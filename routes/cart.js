@@ -31,7 +31,6 @@ router.get('/', async function (req, res) {
     res.render('cart', { cart: cart });
 })
 router.post('/addOrUpdate', async function (req, res) {
-    console.log(req.body + req.body.code);
     var id = req.session.passport;
     var product = await Product.findOne({ productCode: String(req.body.code) });
     var item = {
