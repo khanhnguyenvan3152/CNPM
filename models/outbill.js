@@ -12,6 +12,7 @@ const OutbillSchema = new mongoose.Schema({
         quantity: Number,
     }],
     customer: {type:mongoose.Schema.Types.ObjectId,ref:'user'},
+    receiver:{type:String,default:""},
     creator: String,
     addressShip: String,
     typePay:Number, 

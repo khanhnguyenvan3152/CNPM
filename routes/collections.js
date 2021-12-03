@@ -12,7 +12,7 @@ const productFilter = async function (sortby, type,group, brand, price_filter) {
         }
     }
     if(type == "all" || group == "all") filter = {};
-    if (typeof brand != "undefined") filter['brand'] = brand;
+    if (typeof brand != "undefined") filter['$text'] = {$search: brand}
     if (typeof price_filter != "undefined"){
         const slices = price_filter.split('-')
         console.log(slices);
@@ -100,7 +100,8 @@ router.get('/vendors', async (req, res, next) => {
     let brand = (typeof req.query.brand !== "undefined") ? req.query.brand : "";
     let page = (typeof req.query.page !== "undefined") ? req.query.page : 1;
     let sortby = (typeof req.query.sort_by !== "undefined") ? req.query.sort_by : "";
-    let { query, count } = (await productFilter(sortby, undefined,undefined, brand));
+    let price_filter =  (typeof req.query.price_filter !== "undefined")?req.query.price_filter: undefined;
+    let { query, count } = (await productFilter(sortby, undefined,undefined, brand,price_filter));
     query
         .skip((page - 1) * pageSize)
         .collation({ locale: "vi", caseLevel: false })
@@ -115,7 +116,8 @@ router.get('/vendors', async (req, res, next) => {
                     type: breadcrumbType,
                     productList: products,
                     current: page,
-                    pages: Math.ceil(count / pageSize)
+                    pages: Math.ceil(count / pageSize),
+                    price_filter:price_filter
                 });
             }
         })
