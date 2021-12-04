@@ -32,6 +32,7 @@ router.post('/add', async function (req, res) {
       customer: id!=undefined?id:null,
       creator: id!=undefined?email:'anonymous',
       receiver: req.body.receiver,
+      phoneContact: req.body.phoneContact,
       addressShip: req.body.addressShip,
       typePay: req.body.typePay,
       status: 1

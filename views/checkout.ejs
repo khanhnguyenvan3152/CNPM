@@ -522,7 +522,8 @@ customerCart.forEach(element => {
             totalprice: totalprice,
             note: "",
             user: user,
-            receiver: user.name,
+            receiver: username,
+            phoneContact:phone,
             addressShip: address,
             typePay: typepay,
             status: 1 // hủy bỏ - đã tiếp nhận - đang chuẩn bị hàng - đang chuyển hàng - hoàn thành 
@@ -536,6 +537,7 @@ customerCart.forEach(element => {
             method: 'POST',
             contentType: "application/json; charset=utf-8",
             success: function (data) {
+                
                 window.location.replace("/");
             },
             error: function (data) {
