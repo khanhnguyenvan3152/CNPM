@@ -1,3 +1,9 @@
+<%    const  numberWithCommas = (number)=>{
+    return number.toString().replace(
+        /\B(?=(\d{3})+(?!\d))/g,
+        ","
+    );
+}%>
 <div class="bread-crumb-background">
     <div class="container">
         <div class="row">
@@ -544,7 +550,7 @@
                                 </h2>
                                 <div class="product-item__price">
                                     <span class="product-item__price-new">
-                                        <%=product.price%>đ
+                                        <%=numberWithCommas(product.price)%>đ
                                     </span>
                                     <!-- <span class="product-item__price-old">
                                             120,000₫

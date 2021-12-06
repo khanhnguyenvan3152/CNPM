@@ -10,6 +10,7 @@ router.post('/add', async function (req, res) {
     var id = req.session.passport;
     var cart = [];
     var email ;
+    var name = req.body.name;
     if (id != undefined) {
         id = id.user;
         var user = await User.findById(id);
@@ -30,6 +31,8 @@ router.post('/add', async function (req, res) {
       products: cart,
       customer: id!=undefined?id:null,
       creator: id!=undefined?email:'anonymous',
+      receiver: req.body.receiver,
+      phoneContact: req.body.phoneContact,
       addressShip: req.body.addressShip,
       typePay: req.body.typePay,
       status: 1
@@ -54,6 +57,7 @@ router.post('/add', async function (req, res) {
                 }
               }
               else {
+                order.
                 res.clearCookie('cart');
                 res.send("add suscess!");
               }
