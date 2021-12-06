@@ -12,7 +12,7 @@ const productFilter = async function (sortby, type,group, brand, price_filter) {
         }
     }
     if(type == "all" || group == "all") filter = {};
-    if (typeof brand != "undefined") filter['$text'] = {$search: brand}
+    if (typeof brand != "undefined") filter['brand'] = brand;
     if (typeof price_filter != "undefined"){
         const slices = price_filter.split('-')
         console.log(slices);
@@ -97,7 +97,7 @@ router.get('/all', async (req, res) => {
 })
 router.get('/vendors', async (req, res, next) => {
     let pageSize = 16;
-    let brand = (typeof req.query.brand !== "undefined") ? req.query.brand : "";
+    let brand = (typeof req.query.q !== "undefined") ? req.query.q : "";
     let page = (typeof req.query.page !== "undefined") ? req.query.page : 1;
     let sortby = (typeof req.query.sort_by !== "undefined") ? req.query.sort_by : "";
     let price_filter =  (typeof req.query.price_filter !== "undefined")?req.query.price_filter: undefined;
@@ -116,6 +116,7 @@ router.get('/vendors', async (req, res, next) => {
                     type: breadcrumbType,
                     productList: products,
                     current: page,
+                    sortby: sortby,
                     pages: Math.ceil(count / pageSize),
                     price_filter:price_filter
                 });
