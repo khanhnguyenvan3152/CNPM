@@ -537,8 +537,10 @@ customerCart.forEach(element => {
             method: 'POST',
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-                
-                window.location.replace("/");
+                $.notify("Bạn đã đặt hàng thành công !",{className: "success"});
+                setTimeout(function(){
+                    window.location.replace("/");
+                },1000)
             },
             error: function (data) {
                 console.log(data)
